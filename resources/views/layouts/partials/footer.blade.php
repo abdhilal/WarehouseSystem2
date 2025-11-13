@@ -1,7 +1,7 @@
-        <footer class="footer"> 
+        <footer class="footer">
           <div class="container-fluid">
-            <div class="row"> 
-              <div class="col-md-6 footer-copyright">
+            <div class="row mb-4">
+              {{-- <div class="col-md-6 footer-copyright">
                 <p class="mb-0">Copyright 2024 © Admiro theme by pixelstrap.</p>
               </div>
               <div class="col-md-6">
@@ -10,7 +10,7 @@
                     <use href="{{ asset('assets/svg/iconly-sprite.svg#heart') }}"></use>
                   </svg>
                 </p>
-              </div>
+              </div> --}}
             </div>
           </div>
         </footer>
