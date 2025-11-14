@@ -49,7 +49,7 @@
             <select name="representative_id" id="representative_id" class="form-control">
               <option value="">{{ __('Choose...') }}</option>
               @foreach($representatives as $rep)
-                <option value="{{ $rep->id }}" @selected(old('representative_id') == $rep->id)>{{ $rep->name }} ({{ $rep->email }})</option>
+                <option value="{{ $rep->id }}" @selected(old('representative_id') == $rep->id)>{{ $rep->name }}</option>
               @endforeach
             </select>
           </div>

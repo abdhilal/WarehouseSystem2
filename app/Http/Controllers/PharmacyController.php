@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pharmacy;
 use App\Models\Warehouse;
 use App\Models\Area;
-use App\Models\User;
+use App\Models\Representative;
 use App\Http\Requests\StorePharmacyRequest;
 use App\Http\Requests\UpdatePharmacyRequest;
 use Illuminate\Http\Request;
@@ -36,7 +36,7 @@ class PharmacyController extends Controller
     {
         $warehouses = Warehouse::orderBy('name')->get();
         $areas = Area::orderBy('name')->get();
-        $representatives = User::role('Representative')->orderBy('name')->get();
+        $representatives = Representative::orderBy('name')->get();
         return view('pages.pharmacies.partials.create', compact('warehouses', 'areas', 'representatives'));
     }
 
@@ -66,7 +66,7 @@ class PharmacyController extends Controller
     {
         $warehouses = Warehouse::orderBy('name')->get();
         $areas = Area::orderBy('name')->get();
-        $representatives = User::role('Representative')->orderBy('name')->get();
+        $representatives = Representative::orderBy('name')->get();
         return view('pages.pharmacies.partials.edit', compact('pharmacy', 'warehouses', 'areas', 'representatives'));
     }
 

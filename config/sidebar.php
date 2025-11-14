@@ -19,6 +19,7 @@ return [
             ['label' => 'items', 'icon' => 'Bag', 'children' => [
                 ['label' => 'Warehouses', 'icon' => 'Archive', 'route' => 'warehouses.index'],
                 ['label' => 'Representatives', 'icon' => 'User', 'route' => 'representatives.index'],
+                ['label' => 'Pharmacies', 'route' => 'pharmacies.index'],
 
                 ['label' => 'Areas', 'icon' => 'Map', 'route' => 'areas.index'],
                 ['label' => 'Factories', 'icon' => 'Layers', 'route' => 'factories.index'],

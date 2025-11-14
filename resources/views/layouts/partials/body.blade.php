@@ -4,7 +4,7 @@
                     <div class="row">
                         <div class="col-sm-6 col-12">
                             <h2>@yield('title')</h2>
-                            <p class="mb-0 text-title-gray">@yield('subTitle')</p>
+                            {{-- <p class="mb-0 text-title-gray">@yield('subTitle')</p> --}}
                         </div>
                         <div class="col-sm-6 col-12">
                             @include('layouts.partials.breadcrumb')

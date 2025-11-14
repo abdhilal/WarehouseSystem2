@@ -16,17 +16,39 @@ class FileController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = auth()->user();
+        $query = File::query();
+
+        $query->where('warehouse_id', $user->warehouse_id);
+
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('code', 'like', "%{$search}%")
+                    ->orWhere('path', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('month')) {
+            $query->where('month', (int) $request->input('month'));
+        }
+        if ($request->filled('year')) {
+            $query->where('year', (int) $request->input('year'));
+        }
+
+        $files = $query->latest()->paginate(20);
+        return view('pages.files.index', compact('files'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function upload()
     {
-        //
+        return view('pages.files.partials.create');
     }
 
     /**
@@ -34,23 +56,33 @@ class FileController extends Controller
      */
     public function store(StoreFileRequest $request)
     {
-
-
+        $file = $request->file('file');
+        $filename = 'FILE-' . now()->timestamp . '-00-' . $request['month'] . '-' . $request['year'] . '.' . $file->getClientOriginalExtension();
+        $path = $file->storeAs('uploads/files', $filename, 'public');
 
         $fileRecord = File::create([
-            'code' => 'FILE-' . now()->timestamp,
-            'month' => $request->month,
-            'year'  => $request->year,
-            'warehouse_id' => auth()->user()->warehouse_id
+            'code'         =>  $filename,
+            'month'        => (int) $request->month,
+            'year'         => (int) $request->year,
+            'warehouse_id' => auth()->user()->warehouse_id,
+            'path'         => $path,
         ]);
-        $fileRecord->path = $request->file('file')->store('files');
-        $fileRecord->save();
+
+        Excel::import(new FilesImport($fileRecord->id, auth()->user()->warehouse_id), $file);
+        return redirect()->route('files.index')
+            ->with('success', __('File imported successfully.'));
+    }
 
 
+    public function downloadFile($id)
+    {
+        $file = File::findOrFail($id);
 
+        if (!$file->path || !Storage::disk('public')->exists($file->path)) {
+            abort(404);
+        }
 
-        Excel::import(new FilesImport($fileRecord->id, auth()->user()->warehouse_id), $request->file('file'));
-        return response()->json(['success' => 'File imported successfully!']);
+        return response()->download(storage_path('app/public/' . $file->path), basename($file->path));
     }
 
     /**
@@ -80,9 +112,14 @@ class FileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(File $file)
+    public function destroy($file)
     {
-        //
+        $file = File::findOrFail($file);
+        if ($file->path) {
+            Storage::disk('public')->delete($file->path);
+        }
+        $file->delete();
+        return redirect()->back()->with('success', __('File deleted successfully.'));
     }
 
     /**
@@ -90,6 +127,7 @@ class FileController extends Controller
      */
     public function export()
     {
-        return Excel::download(new FilesExport, 'files.xlsx');
+        $filename = 'FILE-STANDER-' . now()->format('Y-m-d');
+        return Excel::download(new FilesExport, $filename . '.xlsx');
     }
 }

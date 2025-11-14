@@ -24,6 +24,7 @@
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
           <h5 class="mb-0">{{ __('Upload File') }}</h5>
+          <a href="{{ route('files.export') }}" class="btn btn-outline-primary"><i class="fa-solid fa-download"></i> {{ __('Export') }}</a>
         </div>
         <div class="card-body">
           <x-form :action="route('files.store')" method="POST" enctype="multipart/form-data" class="row g-3" novalidate>

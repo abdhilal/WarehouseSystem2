@@ -118,6 +118,14 @@
     "File": "ملف",
     "Name": "الاسم"
     ,
+    "Pharmacies": "الصيدليات",
+    "Create Pharmacy": "إنشاء صيدلية",
+    "Edit Pharmacy": "تعديل صيدلية",
+    "Pharmacy Details": "تفاصيل الصيدلية",
+    "No pharmacies found": "لم يتم العثور على صيدليات",
+    "Pharmacy": "صيدلية",
+    "Save": "حفظ"
+    ,
     "Transaction details": "تفاصيل الحركة",
     "Create Transaction": "إنشاء حركة",
     "Edit Transaction": "تعديل حركة",
@@ -136,5 +144,8 @@
     "Value Output": "قيمة الخارج",
     "Quantity Product": "كمية المنتج",
     "Quantity Gift": "كمية الهدية",
-    "Representative details": "تفاصيل المندوب"
+    "Representative details": "تفاصيل المندوب",
+    "Export": "تصدير",
+    "Download": "تحميل",
+    "Files Manager": "إدارة الملفات"
 }

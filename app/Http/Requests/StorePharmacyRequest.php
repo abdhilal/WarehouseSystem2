@@ -24,7 +24,7 @@ class StorePharmacyRequest extends FormRequest
         return [
             'name' => 'required|string|max:150|unique:pharmacies,name',
             'area_id' => 'required|exists:areas,id',
-            'representative_id' => 'nullable|exists:users,id',
+            'representative_id' => 'nullable|exists:representatives,id',
             'warehouse_id' => 'required|exists:warehouses,id',
         ];
     }

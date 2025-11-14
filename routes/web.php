@@ -47,14 +47,13 @@ Route::middleware('auth')->group(function () {
         ->name('users.permissions.update');
     Route::resource('/users', UserController::class);
 
+    Route::delete('/files/destroy/{id}', [FileController::class, 'destroy'])->name('files.destroy');
 
     Route::get('/files/export', [FileController::class, 'export'])->name('files.export');
     Route::get('/files/index', [FileController::class, 'index'])->name('files.index');
     Route::post('/files/store', [FileController::class, 'store'])->name('files.store');
-
-
-
-    Route::view('/files/upload', 'pages.files.partials.create')->name('files.upload');
+    Route::get('/files/download/{id}', [FileController::class, 'downloadFile'])->name('files.download');
+    Route::get('/files/upload', [FileController::class, 'upload'])->name('files.upload');
 });
 
 require __DIR__ . '/auth.php';
