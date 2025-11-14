@@ -16,19 +16,22 @@ return new class extends Migration
             $table->foreignId('factory_id')->constrained()->onDelete('cascade');
             $table->enum('type', ['Wholesale Sale', 'Wholesale Return']);
             $table->foreignId('pharmacy_id')->constrained()->onDelete('cascade');
-            $table->integer('quantity')->default(0);
+            $table->integer('quantity_product')->default(0);
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
-
-
-
+            $table->integer('quantity_gift')->default(0);
+            $table->decimal('value_income', 15, 2)->default(0);
+            $table->decimal('value_output', 15, 2)->default(0);
             $table->foreignId('representative_id')->constrained('representatives')->onDelete('cascade');
+            $table->foreignId('area_id')->constrained('areas')->onDelete('cascade');
+            $table->decimal('value_gift', 15, 2)->default(0);
+
+
+
             $table->foreignId('warehouse_id')->constrained()->onDelete('cascade');
             $table->foreignId('file_id')->nullable()->constrained('files')->onDelete('set null');
 
 
 
-            $table->decimal('value', 15, 2)->default(0);
-            $table->decimal('gift_value', 15, 2)->default(0);
 
             $table->timestamps();
         });

@@ -6,7 +6,7 @@ use App\Models\Transaction;
 use App\Models\Warehouse;
 use App\Models\Factory;
 use App\Models\Pharmacy;
-use App\Models\User;
+use App\Models\Representative;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTransactionRequest;
@@ -38,7 +38,7 @@ class TransactionController extends Controller
         $warehouses = Warehouse::orderBy('name')->get();
         $factories = Factory::orderBy('name')->get();
         $pharmacies = Pharmacy::orderBy('name')->get();
-        $representatives = User::role('Representative')->orderBy('name')->get();
+        $representatives = Representative::orderBy('name')->get();
         $products = Product::orderBy('name')->get();
         $types = ['Wholesale Sale', 'Wholesale Return', 'Gift'];
         return view('pages.transactions.partials.create', compact('warehouses','factories','pharmacies','representatives','products','types'));
@@ -71,7 +71,7 @@ class TransactionController extends Controller
         $warehouses = Warehouse::orderBy('name')->get();
         $factories = Factory::orderBy('name')->get();
         $pharmacies = Pharmacy::orderBy('name')->get();
-        $representatives = User::role('Representative')->orderBy('name')->get();
+        $representatives = Representative::orderBy('name')->get();
         $products = Product::orderBy('name')->get();
         $types = ['Wholesale Sale', 'Wholesale Return', 'Gift'];
         return view('pages.transactions.partials.edit', compact('transaction','warehouses','factories','pharmacies','representatives','products','types'));

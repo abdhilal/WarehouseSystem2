@@ -24,6 +24,7 @@ return [
                 ['label' => 'Factories', 'icon' => 'Layers', 'route' => 'factories.index'],
                 ['label' => 'Products', 'icon' => 'Package', 'route' => 'products.index'],
                 ['label' => 'Files', 'icon' => 'Paper', 'route' => 'files.index'],
+                ['label' => 'Transactions', 'route' => 'transactions.index'],
             ]],
         ],
     ],

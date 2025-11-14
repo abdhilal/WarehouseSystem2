@@ -41,14 +41,16 @@ class FileController extends Controller
             'code' => 'FILE-' . now()->timestamp,
             'month' => $request->month,
             'year'  => $request->year,
-            'representative_id' => auth()->user()->id
+            'warehouse_id' => auth()->user()->warehouse_id
         ]);
+        $fileRecord->path = $request->file('file')->store('files');
+        $fileRecord->save();
 
 
 
-        $date = Excel::import(new FilesImport($fileRecord->id, auth()->user()->warehouse_id), $request->file('file'));
 
-        return $date;
+        Excel::import(new FilesImport($fileRecord->id, auth()->user()->warehouse_id), $request->file('file'));
+        return response()->json(['success' => 'File imported successfully!']);
     }
 
     /**

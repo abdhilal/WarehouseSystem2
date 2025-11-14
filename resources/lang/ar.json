@@ -115,5 +115,26 @@
     "Files": "الملفات",
     "Month": "الشهر",
     "Year": "السنة",
-    "File": "ملف"
+    "File": "ملف",
+    "Name": "الاسم"
+    ,
+    "Transaction details": "تفاصيل الحركة",
+    "Create Transaction": "إنشاء حركة",
+    "Edit Transaction": "تعديل حركة",
+    "No transactions found": "لم يتم العثور على حركات",
+    "Type": "النوع",
+    "Product": "المنتج",
+    "Pharmacy": "الصيدلية",
+    "Representative": "المندوب",
+    "Quantity": "الكمية",
+    "Value": "القيمة",
+    "Gift Value": "قيمة الهدايا",
+    "Wholesale Sale": "مبيع جملة",
+    "Wholesale Return": "مرتجع جملة",
+    "Gift": "هدية",
+    "Value Income": "قيمة الداخل",
+    "Value Output": "قيمة الخارج",
+    "Quantity Product": "كمية المنتج",
+    "Quantity Gift": "كمية الهدية",
+    "Representative details": "تفاصيل المندوب"
 }

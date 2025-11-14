@@ -10,15 +10,20 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'warehouse_id',
         'factory_id',
-        'pharmacy_id',
-        'representative_id',
-        'product_id',
         'type',
-        'quantity',
-        'value',
-        'gift_value',
+        'pharmacy_id',
+        'quantity_product',
+        'product_id',
+        'quantity_gift',
+        'value_income',
+        'value_output',
+        'representative_id',
+        'area_id',
+        'value_gift',
+
+
+        'warehouse_id',
         'file_id',
     ];
 
@@ -50,5 +55,10 @@ class Transaction extends Model
     public function file()
     {
         return $this->belongsTo(File::class);
+    }
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
     }
 }

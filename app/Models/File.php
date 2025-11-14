@@ -13,8 +13,9 @@ class File extends Model
     protected $fillable = [
         'code',
         'month',
+        'path',
         'year',
-        'representative_id',
+        'warehouse_id',
     ];
 
     public function transactions()
@@ -22,5 +23,5 @@ class File extends Model
         return $this->hasMany(Transaction::class, 'file_id');
     }
 
-    
+
 }

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('files', function (Blueprint $table) {
             $table->id();
             $table->string('code')->unique();
+            $table->string('path');
             $table->tinyInteger('month')->unsigned();
             $table->smallInteger('year')->unsigned();
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null');

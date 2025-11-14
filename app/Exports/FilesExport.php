@@ -18,7 +18,20 @@ class FilesExport implements FromArray, WithHeadings, WithEvents
     public function headings(): array
     {
         return [
-          'المصنع',	'الحركة',	'حساب_الصيدلية',	'عدد',	'الاسم_التجاري',	'هدية',	'مجموع_الداخل',	'مجموع_الخارج',	'المندوب',	'المنطقة',	'قيمة_الهدايا'
+
+
+
+            'المصنع',
+            'الحركة',
+            'حساب_الصيدلية',
+            'عدد_المنتجات',
+            'اسم_المنتج',
+            'عدد_الهدايا',
+            'مجموع_الداخل',
+            'مجموع_الخارج',
+            'المندوب',
+            'المنطقة',
+            'قيمة_الهدايا'
 
         ];
     }
@@ -26,7 +39,7 @@ class FilesExport implements FromArray, WithHeadings, WithEvents
     public function registerEvents(): array
     {
         return [
-            AfterSheet::class => function(AfterSheet $event) {
+            AfterSheet::class => function (AfterSheet $event) {
                 // تعيين اتجاه الورقة من اليمين لليسار
                 $event->sheet->getDelegate()->setRightToLeft(true);
 

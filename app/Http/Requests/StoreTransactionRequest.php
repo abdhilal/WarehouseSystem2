@@ -25,12 +25,14 @@ class StoreTransactionRequest extends FormRequest
             'warehouse_id' => 'required|exists:warehouses,id',
             'factory_id' => 'required|exists:factories,id',
             'pharmacy_id' => 'required|exists:pharmacies,id',
-            'representative_id' => 'required|exists:users,id',
+            'representative_id' => 'required|exists:representatives,id',
             'product_id' => 'required|exists:products,id',
             'type' => 'required|in:Wholesale Sale,Wholesale Return,Gift',
             'quantity' => 'required|integer|min:0',
             'value' => 'nullable|numeric|min:0',
             'gift_value' => 'nullable|numeric|min:0',
+            'quantity_gift' => 'nullable|integer|min:0',
+            'value_output' => 'nullable|numeric|min:0',
         ];
     }
 }

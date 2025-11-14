@@ -41,12 +41,40 @@ class TransactionService
 
     public function createTransaction(array $data): Transaction
     {
-        return Transaction::create($data);
+        $payload = [
+            'warehouse_id'      => $data['warehouse_id'] ?? null,
+            'factory_id'        => $data['factory_id'] ?? null,
+            'pharmacy_id'       => $data['pharmacy_id'] ?? null,
+            'representative_id' => $data['representative_id'] ?? null,
+            'product_id'        => $data['product_id'] ?? null,
+            'type'              => $data['type'] ?? null,
+            'quantity_product'  => $data['quantity'] ?? 0,
+            'quantity_gift'     => $data['quantity_gift'] ?? 0,
+            'value_income'      => $data['value'] ?? 0,
+            'value_output'      => $data['value_output'] ?? 0,
+            'value_gift'        => $data['gift_value'] ?? 0,
+        ];
+
+        return Transaction::create($payload);
     }
 
     public function updateTransaction(Transaction $transaction, array $data): Transaction
     {
-        $transaction->update($data);
+        $payload = [
+            'warehouse_id'      => $data['warehouse_id'] ?? $transaction->warehouse_id,
+            'factory_id'        => $data['factory_id'] ?? $transaction->factory_id,
+            'pharmacy_id'       => $data['pharmacy_id'] ?? $transaction->pharmacy_id,
+            'representative_id' => $data['representative_id'] ?? $transaction->representative_id,
+            'product_id'        => $data['product_id'] ?? $transaction->product_id,
+            'type'              => $data['type'] ?? $transaction->type,
+            'quantity_product'  => $data['quantity'] ?? $transaction->quantity_product,
+            'quantity_gift'     => $data['quantity_gift'] ?? $transaction->quantity_gift,
+            'value_income'      => $data['value'] ?? $transaction->value_income,
+            'value_output'      => $data['value_output'] ?? $transaction->value_output,
+            'value_gift'        => $data['gift_value'] ?? $transaction->value_gift,
+        ];
+
+        $transaction->update($payload);
         return $transaction;
     }
 
