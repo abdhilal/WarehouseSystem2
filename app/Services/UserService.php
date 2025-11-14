@@ -4,14 +4,13 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\Representative;
 
-class RepresentativeService
+class UserService
 {
-    public function getRepresentatives(Request $request = null)
+    public function getUsers(Request $request = null)
     {
-        $query = Representative::query()->with(['warehouse','area']);
-
+        $query = User::query()->with(['warehouse'])
+            ;
 
         if ($request && $request->filled('search')) {
             $this->applySearch($query, $request->input('search'));
@@ -28,18 +27,18 @@ class RepresentativeService
         });
     }
 
-    public function createRepresentative(array $data): Representative
+    public function createUser(array $data): User
     {
-        return Representative::create($data);
+        return User::create($data);
     }
 
-    public function updateRepresentative(Representative $representative, array $data): bool
+    public function updateUser(User $user, array $data): bool
     {
-        return $representative->update($data);
+        return $user->update($data);
     }
 
-    public function deleteRepresentative(Representative $representative): ?bool
+    public function deleteUser(User $user): ?bool
     {
-        return $representative->delete();
+        return $user->delete();
     }
 }

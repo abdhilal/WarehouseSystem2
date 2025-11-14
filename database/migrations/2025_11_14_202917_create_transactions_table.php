@@ -21,7 +21,7 @@ return new class extends Migration
 
 
 
-            $table->foreignId('representative_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('representative_id')->constrained('representatives')->onDelete('cascade');
             $table->foreignId('warehouse_id')->constrained()->onDelete('cascade');
             $table->foreignId('file_id')->nullable()->constrained('files')->onDelete('set null');
 

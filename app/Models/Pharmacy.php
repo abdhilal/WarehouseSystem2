@@ -23,7 +23,7 @@ class Pharmacy extends Model
 
     public function representative()
     {
-        return $this->belongsTo(User::class, 'representative_id');
+        return $this->belongsTo(Representative::class, 'representative_id');
     }
 
     public function transactions()

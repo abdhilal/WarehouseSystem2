@@ -4,21 +4,20 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRepresentativeRequest extends FormRequest
+class StoreUserRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user() ? $this->user()->hasPermissionTo('edit-representative') : false;
+        return $this->user() ? $this->user()->hasPermissionTo('create-user') : false;
     }
 
     public function rules(): array
     {
-        $userId = $this->route('representative')?->id;
         return [
             'name' => 'required|string|max:150',
-       
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|confirmed|min:8',
             'warehouse_id' => 'nullable|exists:warehouses,id',
-            'area_id' => 'nullable|exists:areas,id',
         ];
     }
 }

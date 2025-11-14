@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('area_id')->constrained()->onDelete('cascade');
-            $table->foreignId('representative_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('representative_id')->nullable()->constrained('representatives')->onDelete('set null');
             $table->foreignId('warehouse_id')->constrained()->onDelete('cascade');
 
             $table->timestamps();

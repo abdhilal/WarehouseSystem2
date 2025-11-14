@@ -35,16 +35,12 @@
                 <td>{{ $representative->name }}</td>
               </tr>
               <tr>
-                <th>{{ __('Email') }}</th>
-                <td>{{ $representative->email }}</td>
+                <th>{{ __('Area') }}</th>
+                <td>{{ $representative->area?->name }}</td>
               </tr>
               <tr>
                 <th>{{ __('Warehouse') }}</th>
                 <td>{{ $representative->warehouse?->name }}</td>
-              </tr>
-              <tr>
-                <th>{{ __('Area') }}</th>
-                <td>{{ $representative->area?->name }}</td>
               </tr>
             </tbody>
           </table>

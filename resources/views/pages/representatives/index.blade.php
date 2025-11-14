@@ -2,9 +2,9 @@
 @section('title')
     {{ __('Representatives list') }}
 @endsection
-{{-- @section('subTitle')
+@section('subTitle')
     {{ __('Representatives list') }}
-@endsection --}}
+@endsection
 @section('breadcrumb')
     {{ __('Representatives') }}
 @endsection
@@ -18,7 +18,9 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5>{{ __('Representatives list') }}</h5>
-                        <x-create :action="route('representatives.create')" />
+                        @can('create-representative')
+                            <x-create :action="route('representatives.create')" />
+                        @endcan
                     </div>
                 </div>
                 <div class="card-body">
@@ -27,29 +29,34 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>{{ __('name') }}</th>
-                                    <th>{{ __('email') }}</th>
-                                    <th>{{ __('status') }}</th>
+                                    <th>{{ __('Name') }}</th>
+                                    <th>{{ __('Area') }}</th>
+                                    <th>{{ __('Warehouse') }}</th>
                                     <th>{{ __('actions') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($representatives as $representative)
+                                @forelse ($representatives as $index => $representative)
                                     <tr>
-                                        <td>{{ $representative->id }}</td>
+                                        <td>{{ $index + 1 }}</td>
                                         <td>{{ $representative->name }}</td>
-                                        <td>{{ $representative->email }}</td>
+                                        <td>{{ $representative->area->name }}</td>
+                                        <td>{{ $representative->warehouse?->name }}</td>
                                         <td>
-                                        </td>
-                                        <td>
-                                            <x-show :action="route('representatives.show', $representative)" />
-                                            <x-edit :action="route('representatives.edit', $representative)" />
-                                            <x-delete-form :action="route('representatives.destroy', $representative)" />
+                                            @can('show-representative')
+                                                <x-show :action="route('representatives.show', $representative)" />
+                                            @endcan
+                                            @can('edit-representative')
+                                                <x-edit :action="route('representatives.edit', $representative)" />
+                                            @endcan
+                                            @can('delete-representative')
+                                                <x-delete-form :action="route('representatives.destroy', $representative)" />
+                                            @endcan
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6">{{ __('No representatives found') }}</td>
+                                        <td colspan="4">{{ __('No representatives found') }}</td>
                                     </tr>
                                 @endforelse
                             </tbody>

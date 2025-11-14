@@ -1,16 +1,17 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\FactoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PharmacyController;
+use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\RepresentativeController;
 use App\Http\Controllers\UserPermissionController;
-use App\Http\Controllers\PharmacyController;
-use App\Http\Controllers\FileController;
 
 
 Route::get('/locale/{locale}', function (string $locale) {
@@ -37,12 +38,15 @@ Route::middleware('auth')->group(function () {
     Route::resource('/areas', AreaController::class);
     Route::resource('/factories', FactoryController::class);
     Route::resource('/representatives', RepresentativeController::class);
+
     Route::resource('/pharmacies', PharmacyController::class);
     Route::resource('/products', ProductController::class);
     Route::resource('/transactions', TransactionController::class);
-    Route::get('/users/permissions', [UserPermissionController::class, 'manage'])->name('users.permissions.manage');
-    Route::post('/users/{user}/permissions', [UserPermissionController::class, 'update'])
+    Route::get('/users/permissions', [UserController::class, 'managePermissions'])->name('users.permissions.manage');
+    Route::post('/users/{user}/permissions', [UserController::class, 'updatePermissions'])
         ->name('users.permissions.update');
+    Route::resource('/users', UserController::class);
+
 
     Route::get('/files/export', [FileController::class, 'export'])->name('files.export');
     Route::get('/files/index', [FileController::class, 'index'])->name('files.index');

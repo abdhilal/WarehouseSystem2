@@ -11,9 +11,9 @@ class Warehouse extends Model
 
     protected $fillable = ['name', 'location'];
 
-    public function users()
+    public function user()
     {
-        return $this->hasMany(User::class);
+        return $this->hasOne(User::class);
     }
 
     public function areas()
@@ -34,6 +34,15 @@ class Warehouse extends Model
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
+    public function representatives()
+    {
+        return $this->hasMany(Representative::class);
     }
 }
 

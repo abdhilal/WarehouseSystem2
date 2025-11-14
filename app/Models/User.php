@@ -22,20 +22,11 @@ class User extends Authenticatable
         return $this->belongsTo(Warehouse::class);
     }
 
-    public function area()
-    {
-        return $this->belongsTo(Area::class);
-    }
 
-    public function pharmacies()
-    {
-        return $this->hasMany(Pharmacy::class, 'representative_id');
-    }
 
-    public function transactions()
-    {
-        return $this->hasMany(Transaction::class, 'representative_id');
-    }
+
+
+
 
     public function files()
     {

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('password');
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamp('email_verified_at')->nullable();
-            $table->foreignId('area_id')->nullable()->constrained()->onDelete('set null');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -21,9 +21,9 @@ class Area extends Model
         return $this->hasMany(Pharmacy::class);
     }
 
-    public function users()
+    public function representative()
     {
-        return $this->hasMany(User::class);
+        return $this->hasOne(Representative::class);
     }
 }
 

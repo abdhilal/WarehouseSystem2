@@ -22,8 +22,5 @@ class File extends Model
         return $this->hasMany(Transaction::class, 'file_id');
     }
 
-    public function representative()
-    {
-        return $this->belongsTo(User::class, 'representative_id');
-    }
+    
 }

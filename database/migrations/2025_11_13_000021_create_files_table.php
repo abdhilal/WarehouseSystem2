@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->tinyInteger('month')->unsigned();
             $table->smallInteger('year')->unsigned();
-            $table->foreignId('representative_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });
     }

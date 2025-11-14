@@ -1,10 +1,10 @@
 @extends('layouts.app')
 @section('title')
-    {{ __('Users.list') }}
+    {{ __('Users list') }}
 @endsection
-@section('subTitle')
-    {{ __('Users.list') }}
-@endsection
+{{-- @section('subTitle')
+    {{ __('Users list') }}
+@endsection --}}
 @section('breadcrumb')
     {{ __('Users') }}
 @endsection
@@ -17,7 +17,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h5>{{ __('Users.list') }}</h5>
+                        <h5>{{ __('Users list') }}</h5>
                         <x-create :action="route('users.create')" />
                     </div>
                 </div>
@@ -29,7 +29,6 @@
                                     <th>#</th>
                                     <th>{{ __('name') }}</th>
                                     <th>{{ __('email') }}</th>
-                                    <th>{{ __('status') }}</th>
                                     <th>{{ __('actions') }}</th>
                                 </tr>
                             </thead>
@@ -39,9 +38,7 @@
                                         <td>{{ $user->id }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
-                                        <td>
-                                          <x-toggle-active :model="$user" action="users.toggleActive" />
-                                        </td>
+                                   
                                         <td>
                                             <x-show :action="route('users.show', $user)" />
                                             <x-edit :action="route('users.edit', $user)" />
