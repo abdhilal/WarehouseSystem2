@@ -26,7 +26,7 @@
                 <div class="col-sm-12 col-xl-6 box-col-6">
                     <div class="card">
                         <div class="card-header card-no-border pb-0">
-                            <h3>{{ __('Transactions') }} — {{ $date['date'] ?? '' }}</h3>
+                            <h3>{{ __('Transactions') }}</h3>
                         </div>
                         <div class="card-body apex-chart">
                             <div id="donutchart"></div>
@@ -36,7 +36,7 @@
                 <div class="col-sm-12 col-xl-6 box-col-6">
                     <div class="card">
                         <div class="card-header card-no-border pb-0">
-                            <h3>{{ __('Representative Medical Transactions') }} — {{ $date['date'] ?? '' }}</h3>
+                            <h3>{{ __('Representative Medical Transactions') }}</h3>
                         </div>
                         <div class="card-body apex-chart">
                             <div id="piechart"></div>
@@ -72,37 +72,34 @@
                         </table>
                     </div>
                     <hr />
-                    <h5 class="mt-4 mb-3">{{ __('Pharmacies') }}</h5>
+                    <h5 class="mt-4 mb-3">{{ __('Areas') }}</h5>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>{{ __('Name') }}</th>
-                                    <th>{{ __('Area') }}</th>
                                     <th>{{ __('Warehouse') }}</th>
-                                    <th>{{ __('actions') }}</th>
+                                    <th>{{ __('Value Income') }}</th>
+                                    <th>{{ __('Value Output') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($representative->pharmacies as $index => $pharmacy)
+                                @forelse ($areas as $index => $area)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>
-                                            <a href="{{ route('pharmacies.show', $pharmacy) }}"
-                                                class="text-decoration-none">
-                                                {{ $pharmacy->name }}
+                                            <a href="{{ route('areas.show', $area) }}" class="text-decoration-none">
+                                                {{ $area->name }}
                                             </a>
                                         </td>
-                                        <td>{{ $pharmacy->area?->name }}</td>
-                                        <td>{{ $pharmacy->warehouse?->name }}</td>
-                                        <td>
-                                            <x-show :action="route('pharmacies.show', $pharmacy)" />
-                                        </td>
+                                        <td>{{ $area->warehouse?->name }}</td>
+                                        <td>{{ number_format($area->transactions_sum_value_income ?? 0, 2) }}</td>
+                                        <td>{{ number_format($area->transactions_sum_value_output ?? 0, 2) }}</td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5">{{ __('No pharmacies found') }}</td>
+                                        <td colspan="5">{{ __('No areas found') }}</td>
                                     </tr>
                                 @endforelse
                             </tbody>

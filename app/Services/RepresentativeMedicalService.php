@@ -29,16 +29,24 @@ class RepresentativeMedicalService
         });
     }
 
-    public function createRepresentativeMedical(array $data): Representative
+    public function createRepresentativeMedical(array $data)
     {
         $data['type'] = 'medical';
         $data['warehouse_id'] = auth()->user()->warehouse_id;
         $representative =  Representative::create($data);
 
-        return AreaRepresentative::create([
-            $representative->id,
-            $data['area_ids']
-        ]);
+
+        $insertData = [];
+
+        foreach ($data['area_ids'] as $area_id) {
+            $insertData[] = [
+                'representative_id' => $representative->id,
+                'area_id' => $area_id,
+            ];
+        }
+
+        $areaRepresentatives = AreaRepresentative::insert($insertData);
+        return $areaRepresentatives;
     }
 
     public function updateRepresentativeMedical(Representative $representative, array $data): bool

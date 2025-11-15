@@ -158,7 +158,10 @@
     "add new representative medical": "إضافة مندوب علمي جديد",
     "Create Representative Medical": "إنشاء مندوب علمي",
     "Select one or more areas": "اختر واحدة أو أكثر من المناطق",
-    "Representative Medical created successfully.": "تم إنشاء مندوب علمي بنجاح."
+    "Representative Medical created successfully.": "تم إنشاء مندوب علمي بنجاح.",
+    "Representative deleted successfully.": "تم حذف مندوب علمي بنجاح.",
+    "Representative Medical details": "تفاصيل المندوب علمي",
+    "Representative Medical Transactions": "حركات المندوب علمي"
 
 
 }

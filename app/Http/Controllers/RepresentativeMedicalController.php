@@ -38,7 +38,7 @@ class RepresentativeMedicalController extends Controller
     public function store(StoreRepresentativeRequest $request)
     {
         $data = $request->validated();
-        $user = $this->service->createRepresentativeMedical($data);
+        $this->service->createRepresentativeMedical($data);
         return redirect()->route('representativesMedical.index')
             ->with('success', __('Representative Medical created successfully.'));
     }
@@ -49,15 +49,16 @@ class RepresentativeMedicalController extends Controller
     {
 
         $representative = Representative::with(['warehouse', 'areas'])->find($representativeId);
-        return $representative;
-        $transactions = Transaction::with(['product', 'pharmacy', 'file'])->where('representative_id', $representative->id)->get();
-        $areas = Area::with('warehouse', 'transactions')
+
+        $transactions = Transaction::with(['product', 'pharmacy', 'file'])->whereIn('area_id', $representative->areas->pluck('id'))->get();
+        $areas = Area::with('warehouse', 'transactions')->where('warehouse_id', $representative->warehouse_id)
             ->whereHas('representatives', function ($query) use ($representative) {
                 $query->where('representative_id', $representative->id);
             })
             ->withSum('transactions', 'value_income')
             ->withSum('transactions', 'value_output')
             ->get();
+
 
         $date = [
             'value_income' => $transactions->sum('value_income'),
@@ -68,6 +69,7 @@ class RepresentativeMedicalController extends Controller
             'Wholesale_Sale' => $transactions->where('type', 'Wholesale Sale')->count(),
             'Wholesale_Return' => $transactions->where('type', 'Wholesale Return')->count(),
         ];
+
 
         // return $date;
         return view('pages.representativesMedical.partials.show', compact('representative', 'transactions', 'date', 'areas'));
