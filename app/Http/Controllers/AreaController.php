@@ -23,6 +23,9 @@ class AreaController extends Controller
     public function index(Request $request)
     {
         $areas = $this->areaService->getAreasForUser($request);
+
+
+
         return view('pages.areas.index', compact('areas'));
     }
 

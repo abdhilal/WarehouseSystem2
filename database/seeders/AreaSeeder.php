@@ -47,8 +47,6 @@ class AreaSeeder extends Seeder
             $areasData[] = ['name' => 'منطقة اسطنبول - B', 'warehouse_id' => $whIstanbul->id];
         }
 
-        foreach ($areasData as $area) {
-            Area::firstOrCreate(['name' => $area['name']], $area);
-        }
+
     }
 }

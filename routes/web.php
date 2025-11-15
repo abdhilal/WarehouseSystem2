@@ -12,6 +12,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\RepresentativeController;
 use App\Http\Controllers\UserPermissionController;
+use App\Http\Controllers\RepresentativeMedicalController;
 
 
 Route::get('/locale/{locale}', function (string $locale) {
@@ -42,6 +43,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('/pharmacies', PharmacyController::class);
     Route::resource('/products', ProductController::class);
     Route::resource('/transactions', TransactionController::class);
+    Route::resource('/representativesMedical', RepresentativeMedicalController::class);
+
     Route::get('/users/permissions', [UserController::class, 'managePermissions'])->name('users.permissions.manage');
     Route::post('/users/{user}/permissions', [UserController::class, 'updatePermissions'])
         ->name('users.permissions.update');

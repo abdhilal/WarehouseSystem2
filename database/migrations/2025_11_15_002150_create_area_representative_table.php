@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('representatives', function (Blueprint $table) {
+        Schema::create('area_representative', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->enum('type', ['sales', 'medical']);
-            $table->foreignId('warehouse_id')->constrained()->onDelete('cascade');
+            $table->foreignId('area_id')->constrained()->onDelete('cascade');
+            $table->foreignId('representative_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('representatives');
+        Schema::dropIfExists('area_representative');
     }
 };

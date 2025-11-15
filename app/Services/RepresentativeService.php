@@ -10,7 +10,7 @@ class RepresentativeService
 {
     public function getRepresentatives(Request $request = null)
     {
-        $query = Representative::query()->with(['warehouse','area']);
+        $query = Representative::query()->with(['warehouse']);
 
 
         if ($request && $request->filled('search')) {

@@ -6,9 +6,10 @@ use App\Models\Area;
 use App\Models\Factory;
 use App\Models\Product;
 use App\Models\Pharmacy;
+use Maatwebsite\Excel\Row;
 use App\Models\Transaction;
 use App\Models\Representative;
-use Maatwebsite\Excel\Row;
+use App\Models\AreaRepresentative;
 use Maatwebsite\Excel\Concerns\OnEachRow;
 
 class FilesImport implements OnEachRow
@@ -54,8 +55,15 @@ class FilesImport implements OnEachRow
 
         // 3️⃣ المندوب
         $representative = Representative::firstOrCreate(
-            ['name' => $representativeName, 'area_id' => $area->id],
-            ['warehouse_id' => $this->warehouseId]
+            ['name' => $representativeName],
+            [
+                'warehouse_id' => $this->warehouseId,
+                'type' => 'sales'
+            ]
+        );
+
+        $areaRepresentative = AreaRepresentative::firstOrCreate(
+            ['area_id' => $area->id, 'representative_id' => $representative->id]
         );
 
         // 4️⃣ الصيدلية
@@ -86,7 +94,6 @@ class FilesImport implements OnEachRow
 
         // 7️⃣ إنشاء العملية
         Transaction::create([
-            'factory_id'        => $factory->id,
             'type'              => $type,
             'pharmacy_id'       => $pharmacy->id,
             'quantity_product'  => abs($quantityProduct),
@@ -95,8 +102,8 @@ class FilesImport implements OnEachRow
             'value_income'      => abs($valueIncome),
             'value_output'      => abs($valueOutput),
             'representative_id' => $representative->id,
-            'area_id'           => $area->id,
             'value_gift'        => abs($valueGift),
+            'area_id'           => $area->id,
             'warehouse_id'      => $this->warehouseId,
             'file_id'           => $this->fileId,
         ]);

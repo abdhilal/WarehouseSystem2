@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->foreignId('warehouse_id')->nullable()->constrained('warehouses')->onDelete('set null');
-
-
             $table->timestamps();
         });
     }

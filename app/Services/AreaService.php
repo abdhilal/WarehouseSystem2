@@ -11,7 +11,11 @@ class AreaService
     public function getAreasForUser(Request $request = null, ?User $user = null)
     {
         $user = $user ?? auth()->user();
-        $query = Area::with('warehouse');
+        $query = Area::with('warehouse', 'transactions')
+            ->withSum('transactions', 'value_income')
+            ->withSum('transactions', 'value_output');
+
+
 
         if (!$user->hasPermissionTo('view-area')) {
             $query->where('warehouse_id', $user->warehouse_id);
@@ -28,9 +32,9 @@ class AreaService
     {
         return $query->where(function ($q) use ($search) {
             $q->where('name', 'like', "%{$search}%")
-              ->orWhereHas('warehouse', function ($w) use ($search) {
-                  $w->where('name', 'like', "%{$search}%");
-              });
+                ->orWhereHas('warehouse', function ($w) use ($search) {
+                    $w->where('name', 'like', "%{$search}%");
+                });
         });
     }
 

@@ -15,8 +15,8 @@ class StoreRepresentativeRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:150',
-            'area_id' => 'required|exists:areas,id',
-            'warehouse_id' => 'required|exists:warehouses,id',
+            'area_ids' => 'required|array|min:1',
+            'area_ids.*' => 'exists:areas,id',
         ];
     }
 }

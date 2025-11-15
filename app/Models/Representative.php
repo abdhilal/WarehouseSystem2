@@ -12,7 +12,7 @@ class Representative extends Model
 
     protected $fillable = [
         'name',
-        'area_id',
+        'type',
         'warehouse_id',
     ];
 
@@ -24,8 +24,8 @@ class Representative extends Model
     {
         return $this->hasMany(Pharmacy::class);
     }
-    public function area()
+    public function areas()
     {
-        return $this->belongsTo(Area::class);
+        return $this->belongsToMany(Area::class, 'area_representative');
     }
 }

@@ -21,9 +21,23 @@ class Area extends Model
         return $this->hasMany(Pharmacy::class);
     }
 
-    public function representative()
+    public function representatives()
     {
-        return $this->hasOne(Representative::class);
+        return $this->belongsToMany(Representative::class, 'area_representative');
+    }
+
+    public function salesReps()
+    {
+        return $this->representatives()->where('type', 'sales');
+    }
+
+    public function medicalReps()
+    {
+        return $this->representatives()->where('type', 'medical');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
     }
 }
-

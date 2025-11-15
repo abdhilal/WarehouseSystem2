@@ -10,7 +10,6 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'factory_id',
         'type',
         'pharmacy_id',
         'quantity_product',
@@ -32,10 +31,7 @@ class Transaction extends Model
         return $this->belongsTo(Warehouse::class);
     }
 
-    public function factory()
-    {
-        return $this->belongsTo(Factory::class);
-    }
+
 
     public function pharmacy()
     {
@@ -57,8 +53,5 @@ class Transaction extends Model
         return $this->belongsTo(File::class);
     }
 
-    public function area()
-    {
-        return $this->belongsTo(Area::class);
-    }
+
 }

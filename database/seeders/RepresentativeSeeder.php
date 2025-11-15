@@ -47,7 +47,7 @@ class RepresentativeSeeder extends Seeder
         if ($whIstanbul) {
             Representative::create([
                 'name' => 'مندوب اسطنبول',
-                'area_id' => 1,
+                'type' => 'sales',
                 'warehouse_id' => $whIstanbul->id,
             ]);
         }

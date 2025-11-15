@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('title')
-    {{ __('Representative details') }}
+    {{ __('Representative Medical details') }}
 @endsection
 @section('subTitle')
-    {{ __('Representative details') }}
+    {{ __('Representative Medical details') }}
 @endsection
 @section('breadcrumb')
-    {{ __('Representatives') }}
+    {{ __('Representatives Medical') }}
 @endsection
 @section('breadcrumbActive')
     {{ __('show') }}
@@ -16,10 +16,10 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">{{ __('Representative details').' — '.$representative->name }}</h5>
+                    <h5 class="mb-0">{{ __('Representative Medical details').' — '.$representative->name }}</h5>
                     <div>
-                        <x-edit :action="route('representatives.edit', $representative)" />
-                        <x-back :action="route('representatives.index')" />
+                        <x-edit :action="route('representativesMedical.edit', $representative->id)" />
+                        <x-back :action="route('representativesMedical.index')" />
                     </div>
                 </div>
                 <div class="row">
@@ -36,7 +36,7 @@
                 <div class="col-sm-12 col-xl-6 box-col-6">
                     <div class="card">
                         <div class="card-header card-no-border pb-0">
-                            <h3>{{ __('Transactions') }} — {{ $date['date'] ?? '' }}</h3>
+                            <h3>{{ __('Representative Medical Transactions') }} — {{ $date['date'] ?? '' }}</h3>
                         </div>
                         <div class="card-body apex-chart">
                             <div id="piechart"></div>

@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('factory_id')->constrained()->onDelete('cascade');
             $table->enum('type', ['Wholesale Sale', 'Wholesale Return']);
             $table->foreignId('pharmacy_id')->constrained()->onDelete('cascade');
             $table->integer('quantity_product')->default(0);

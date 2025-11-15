@@ -147,5 +147,18 @@
     "Representative details": "تفاصيل المندوب",
     "Export": "تصدير",
     "Download": "تحميل",
-    "Files Manager": "إدارة الملفات"
+    "Files Manager": "إدارة الملفات",
+    "Files list": "قائمة الملفات",
+    "Total Income": "إجمالي الداخل",
+    "Total Output": "إجمالي الخارج",
+    "Total Quantity Moved": "إجمالي الكمية المنقولة",
+    "Representatives Medical": "المندوبين العلمي",
+    "Representatives Medical list": "قائمة المندوبين العلمي",
+    "No representatives found": "لم يتم العثور على مندوبين علمي",
+    "add new representative medical": "إضافة مندوب علمي جديد",
+    "Create Representative Medical": "إنشاء مندوب علمي",
+    "Select one or more areas": "اختر واحدة أو أكثر من المناطق",
+    "Representative Medical created successfully.": "تم إنشاء مندوب علمي بنجاح."
+
+
 }

@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title')
-    {{ __('Representatives list') }}
+    {{ __('Representatives Medical list') }}
 @endsection
 @section('subTitle')
-    {{ __('Representatives list') }}
+    {{ __('Representatives Medical list') }}
 @endsection
 @section('breadcrumb')
-    {{ __('Representatives') }}
+    {{ __('Representatives Medical') }}
 @endsection
 @section('breadcrumbActive')
-    {{ __('Representatives') }}
+    {{ __('Representatives Medical') }}
 @endsection
 @section('content')
     <div class="row">
@@ -17,9 +17,9 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h5>{{ __('Representatives list') }}</h5>
+                        <h5>{{ __('Representatives Medical list') }}</h5>
                         @can('create-representative')
-                            <x-create :action="route('representatives.create')" />
+                            <x-create :action="route('representativesMedical.create')" />
                         @endcan
                     </div>
                 </div>
@@ -35,21 +35,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($representatives as $index => $representative)
+                                @forelse ($representativesMedical as $index => $representative)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>
-                                            <a href="{{ route('representatives.show', $representative) }}" class="text-decoration-none">
+                                            <a href="{{ route('representativesMedical.show', $representative) }}" class="text-decoration-none">
                                                 {{ $representative->name }}
                                             </a>
                                         </td>
                                         <td>{{ $representative->warehouse?->name }}</td>
                                         <td>
                                             @can('show-representative')
-                                                <x-show :action="route('representatives.show', $representative)" />
+                                                <x-show :action="route('representativesMedical.show', $representative)" />
                                             @endcan
                                             @can('edit-representative')
-                                                <x-edit :action="route('representatives.edit', $representative)" />
+                                                <x-edit :action="route('representativesMedical.edit', $representative)" />
                                             @endcan
                                             @can('delete-representative')
                                                 <x-delete-form :action="route('representatives.destroy', $representative)" />
@@ -65,9 +65,9 @@
                         </table>
                     </div>
                 </div>
-                @if ($representatives->count())
+                @if ($representativesMedical->count())
                     <div class="card-footer">
-                        @include('layouts.partials.pagination', ['page' => $representatives])
+                        @include('layouts.partials.pagination', ['page' => $representativesMedical])
                     </div>
                 @endif
             </div>

@@ -29,6 +29,8 @@
                 <th>#</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Warehouse') }}</th>
+                <th>{{ __('Total Income') }}</th>
+                <th>{{ __('Total Output') }}</th>
                 <th>{{ __('actions') }}</th>
               </tr>
             </thead>
@@ -38,6 +40,8 @@
                   <td>{{ $index + 1 }}</td>
                   <td>{{ $area->name }}</td>
                   <td>{{ $area->warehouse?->name }}</td>
+                  <td>{{ $area->transactions_sum_value_income }}</td>
+                  <td>{{ $area->transactions_sum_value_output }}</td>
                   <td>
                     <x-show :action="route('areas.show', $area)" />
                     <x-edit :action="route('areas.edit', $area)" />
