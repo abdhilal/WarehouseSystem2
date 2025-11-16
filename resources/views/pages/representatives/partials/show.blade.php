@@ -80,7 +80,8 @@
                                     <th>#</th>
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Area') }}</th>
-                                    <th>{{ __('Warehouse') }}</th>
+                                    <th>{{ __('Value Income') }}</th>
+                                    <th>{{ __('Value Output') }}</th>
                                     <th>{{ __('actions') }}</th>
                                 </tr>
                             </thead>
@@ -95,7 +96,8 @@
                                             </a>
                                         </td>
                                         <td>{{ $pharmacy->area?->name }}</td>
-                                        <td>{{ $pharmacy->warehouse?->name }}</td>
+                                        <td>{{ number_format(($pharmacyTotals[$pharmacy->id]['income'] ?? 0), 2) }}</td>
+                                        <td>{{ number_format(($pharmacyTotals[$pharmacy->id]['output'] ?? 0), 2) }}</td>
                                         <td>
                                             <x-show :action="route('pharmacies.show', $pharmacy)" />
                                         </td>
@@ -103,6 +105,40 @@
                                 @empty
                                     <tr>
                                         <td colspan="5">{{ __('No pharmacies found') }}</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h5 class="mt-4 mb-3">{{ __('Areas') }}</h5>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>{{ __('Name') }}</th>
+                                    <th>{{ __('Warehouse') }}</th>
+                                    <th>{{ __('Value Income') }}</th>
+                                    <th>{{ __('Value Output') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($areas as $index => $area)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>
+                                            <a href="{{ route('areas.show', $area) }}" class="text-decoration-none">
+                                                {{ $area->name }}
+                                            </a>
+                                        </td>
+                                        <td>{{ $area->warehouse?->name }}</td>
+                                        <td>{{ number_format($area->transactions_sum_value_income ?? 0, 2) }}</td>
+                                        <td>{{ number_format($area->transactions_sum_value_output ?? 0, 2) }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5">{{ __('No areas found') }}</td>
                                     </tr>
                                 @endforelse
                             </tbody>

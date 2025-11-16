@@ -28,4 +28,9 @@ class Representative extends Model
     {
         return $this->belongsToMany(Area::class, 'area_representative');
     }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }

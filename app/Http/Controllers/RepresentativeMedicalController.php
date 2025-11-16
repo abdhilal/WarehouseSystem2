@@ -25,7 +25,17 @@ class RepresentativeMedicalController extends Controller
     public function index(Request $request)
     {
         $representativesMedical = $this->service->getRepresentativesMedical($request);
-        return view('pages.representativesMedical.index', compact('representativesMedical'));
+
+        $repAreaTotals = [];
+        foreach ($representativesMedical as $rep) {
+            $areaIds = $rep->areas->pluck('id');
+            $repAreaTotals[$rep->id] = [
+                'income' => (float) Transaction::whereIn('area_id', $areaIds)->sum('value_income'),
+                'output' => (float) Transaction::whereIn('area_id', $areaIds)->sum('value_output'),
+            ];
+        }
+
+        return view('pages.representativesMedical.index', compact('representativesMedical', 'repAreaTotals'));
     }
 
     public function create()

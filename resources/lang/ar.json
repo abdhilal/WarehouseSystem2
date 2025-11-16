@@ -161,7 +161,10 @@
     "Representative Medical created successfully.": "تم إنشاء مندوب علمي بنجاح.",
     "Representative deleted successfully.": "تم حذف مندوب علمي بنجاح.",
     "Representative Medical details": "تفاصيل المندوب علمي",
-    "Representative Medical Transactions": "حركات المندوب علمي"
+    "Representative Medical Transactions": "حركات المندوب علمي",
+    "Type": "النوع",
+    "sales": "تجاري",
+    "medical": "علمي "
 
 
 }

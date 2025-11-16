@@ -30,7 +30,10 @@
                                 <tr>
                                     <th>#</th>
                                     <th>{{ __('Name') }}</th>
-                                    <th>{{ __('Warehouse') }}</th>
+                                    <th>{{ __('Areas') }}</th>
+                                    <th>{{ __('Pharmacies') }}</th>
+                                    <th>{{ __('Value Income') }}</th>
+                                    <th>{{ __('Value Output') }}</th>
                                     <th>{{ __('actions') }}</th>
                                 </tr>
                             </thead>
@@ -43,7 +46,10 @@
                                                 {{ $representative->name }}
                                             </a>
                                         </td>
-                                        <td>{{ $representative->warehouse?->name }}</td>
+                                        <td>{{ $representative->areas_count }}</td>
+                                        <td>{{ $representative->pharmacies_count }}</td>
+                                        <td>{{ number_format($representative->transactions_sum_value_income ?? 0, 2) }}</td>
+                                        <td>{{ number_format($representative->transactions_sum_value_output ?? 0, 2) }}</td>
                                         <td>
                                             @can('show-representative')
                                                 <x-show :action="route('representatives.show', $representative)" />

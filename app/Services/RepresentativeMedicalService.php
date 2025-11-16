@@ -9,18 +9,6 @@ use App\Models\Representative;
 
 class RepresentativeMedicalService
 {
-    public function getRepresentativesMedical(Request $request = null)
-    {
-        $query = Representative::query()->with(['warehouse'])->where('type', 'medical');
-
-
-        if ($request && $request->filled('search')) {
-            $this->applySearch($query, $request->input('search'));
-        }
-
-        return $query->latest()->paginate(20);
-    }
-
     protected function applySearch($query, string $search)
     {
         return $query->where(function ($q) use ($search) {
@@ -57,5 +45,19 @@ class RepresentativeMedicalService
     public function deleteRepresentativeMedical(Representative $representative): ?bool
     {
         return $representative->delete();
+    }
+
+    public function getRepresentativesMedical(Request $request = null)
+    {
+        $query = Representative::query()
+            ->with(['warehouse', 'areas'])
+            ->withCount(['areas'])
+            ->where('type', 'medical');
+
+        if ($request && $request->filled('search')) {
+            $this->applySearch($query, $request->input('search'));
+        }
+
+        return $query->latest()->paginate(20);
     }
 }

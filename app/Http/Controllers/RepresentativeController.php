@@ -69,10 +69,16 @@ class RepresentativeController extends Controller
             'date' => $transactions->first()->file->month . '-' . $transactions->first()->file->year,
         ];
 
-        // return $date;
-        return view('pages.representatives.partials.show', compact('representative', 'transactions', 'date', 'areas'));
-    }
+        $pharmacyTotals = $transactions->groupBy('pharmacy_id')->map(function ($ts) {
+            return [
+                'income' => (float) $ts->sum('value_income'),
+                'output' => (float) $ts->sum('value_output'),
+            ];
+        });
 
+        return view('pages.representatives.partials.show', compact('representative', 'transactions', 'date', 'areas', 'pharmacyTotals'));
+
+    }
     public function edit(Representative $representative)
     {
         $warehouses = Warehouse::orderBy('name')->get();

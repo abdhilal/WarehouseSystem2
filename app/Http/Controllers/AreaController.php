@@ -53,8 +53,31 @@ class AreaController extends Controller
      */
     public function show(Area $area)
     {
-        $area->load('warehouse');
-        return view('pages.areas.partials.show', compact('area'));
+        $area->load([
+            'warehouse',
+            'pharmacies.warehouse',
+            'pharmacies.representative',
+            'representatives.warehouse',
+            'transactions.product',
+            'transactions.pharmacy',
+            'transactions.representative',
+            'transactions.file',
+        ]);
+
+        $stats = [
+            'transactions_count' => $area->transactions()->count(),
+            'value_income' => (float) $area->transactions()->sum('value_income'),
+            'value_output' => (float) $area->transactions()->sum('value_output'),
+            'value_gift' => (float) $area->transactions()->sum('value_gift'),
+            'quantity_product' => (int) $area->transactions()->sum('quantity_product'),
+            'quantity_gift' => (int) $area->transactions()->sum('quantity_gift'),
+            'sales_count' => $area->transactions()->where('type', 'Wholesale Sale')->count(),
+            'returns_count' => $area->transactions()->where('type', 'Wholesale Return')->count(),
+        ];
+
+        $transactions = $area->transactions()->with(['product','pharmacy','representative','file'])->latest()->paginate(10);
+
+        return view('pages.areas.partials.show', compact('area', 'transactions', 'stats'));
     }
 
     /**

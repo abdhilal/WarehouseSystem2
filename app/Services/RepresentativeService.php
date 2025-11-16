@@ -10,8 +10,12 @@ class RepresentativeService
 {
     public function getRepresentatives(Request $request = null)
     {
-        $query = Representative::query()->with(['warehouse']);
-
+        $query = Representative::query()
+            ->with(['warehouse'])
+            ->withCount(['pharmacies', 'areas'])
+            ->withSum('transactions', 'value_income')
+            ->withSum('transactions', 'value_output')
+            ->where('type', 'sales')->where('warehouse_id', auth()->user()->warehouse_id);
 
         if ($request && $request->filled('search')) {
             $this->applySearch($query, $request->input('search'));
