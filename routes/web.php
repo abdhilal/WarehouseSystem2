@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/files/store', [FileController::class, 'store'])->name('files.store');
     Route::get('/files/download/{id}', [FileController::class, 'downloadFile'])->name('files.download');
     Route::get('/files/upload', [FileController::class, 'upload'])->name('files.upload');
+    Route::post('/files/filter', [FileController::class, 'FileFilter'])->name('files.filter');
 });
 
 require __DIR__ . '/auth.php';

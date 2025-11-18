@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\StoreFileRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UpdateFileRequest;
+use Illuminate\Container\Attributes\Auth;
 
 class FileController extends Controller
 {
@@ -88,18 +89,34 @@ class FileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(File $file)
+
+
+
+    public function FileFilter(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'file' => 'required|exists:files,code',
+        ]);
+
+        $file = File::where('code', $validated['file'])->first();
+        $fileDefault = File::where('is_default', 1)->first();
+        if ($fileDefault) {
+            $fileDefault->update([
+                'is_default' => 0,
+            ]);
+        }
+
+        $file->update([
+            'is_default' => 1,
+        ]);
+
+        return redirect()->back()->with('success', __('File filtered successfully.'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(File $file)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('path');
             $table->tinyInteger('month')->unsigned();
             $table->smallInteger('year')->unsigned();
+            $table->boolean('is_default')->default(false);
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });

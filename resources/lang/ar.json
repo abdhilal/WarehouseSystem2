@@ -164,7 +164,10 @@
     "Representative Medical Transactions": "حركات المندوب علمي",
     "Type": "النوع",
     "sales": "تجاري",
-    "medical": "علمي "
+    "medical": "علمي ",
+    "File filtered successfully.": "تم تصفية الملف بنجاح.",
+    "Filter": "تصفية",
+    "Select File": "اختر الملف"
 
 
 }
