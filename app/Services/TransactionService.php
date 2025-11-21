@@ -9,11 +9,11 @@ class TransactionService
 {
     public function getTransactions(Request $request = null)
     {
-        $query = Transaction::query()->with(['warehouse', 'factory', 'pharmacy', 'representative', 'product'])->where('file_id', getDefaultFileId());
+        $query = Transaction::query()->with(['warehouse', 'pharmacy', 'representative', 'product'])->where('file_id', getDefaultFileId());
         if ($request && $request->filled('search')) {
             $this->applySearch($query, $request->input('search'));
         }
-        return $query->latest()->paginate(20);
+        return $query->paginate(20);
     }
 
     public function applySearch($query, string $term)
@@ -36,6 +36,7 @@ class TransactionService
                   $w->where('name', 'LIKE', "%{$term}%");
               });
         });
+
     }
 
     public function createTransaction(array $data): Transaction

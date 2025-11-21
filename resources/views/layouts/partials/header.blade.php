@@ -312,9 +312,14 @@
                                 </svg><a class="ms-2" href="to-do.html">Task</a>
                             </li>
                             <li class="d-flex">
-                                <svg class="svg-color">
-                                    <use href="{{ asset('assets/svg/iconly-sprite.svg#Login') }}"></use>
-                                </svg><a class="ms-2" href="login.html">Log Out</a>
+
+                                <use href="{{ asset('assets/svg/iconly-sprite.svg#Login') }}"></use>
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+
+                                    <button type="submit" class="ms-2">Log Out</button>
+                                </form>
+
                             </li>
                         </ul>
                     </div>

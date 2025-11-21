@@ -85,8 +85,9 @@ class RepresentativeMedicalController extends Controller
         return view('pages.representativesMedical.partials.show', compact('representative', 'transactions', 'date', 'areas'));
     }
 
-    public function edit(Representative $representative)
+    public function edit($representativeId)
     {
+        $representative=Representative::with(['warehouse', 'areas'])->find($representativeId);
         $warehouses = Warehouse::orderBy('name')->get();
         $areas = Area::orderBy('name')->get();
         return view('pages.representativesMedical.partials.edit', compact('representative', 'warehouses', 'areas'));

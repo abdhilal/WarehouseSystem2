@@ -11,12 +11,13 @@ class RepresentativeService
     public function getRepresentatives(Request $request = null)
     {
         $query = Representative::query()->whereHas('transactions', function ($q) {
-            $q->where('file_id', getDefaultFileId());
+            $q->where('file_id', 4);
+
         })
+
             ->with(['warehouse'])
             ->withCount(['pharmacies', 'areas'])
-            ->withSum('transactions', 'value_income')
-            ->withSum('transactions', 'value_output')
+
             ->where('type', 'sales')->where('warehouse_id', auth()->user()->warehouse_id);
 
         if ($request && $request->filled('search')) {
@@ -30,7 +31,7 @@ class RepresentativeService
     {
         return $query->where(function ($q) use ($search) {
             $q->where('name', 'like', "%{$search}%")
-              ->orWhere('email', 'like', "%{$search}%");
+            ->orWhere('email', 'like', "%{$search}%");
         });
     }
 
