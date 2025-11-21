@@ -18,7 +18,6 @@ class PharmacyController extends Controller
     public function __construct(PharmacyService $service)
     {
         $this->service = $service;
-
     }
     /**
      * Display a listing of the resource.
@@ -55,11 +54,42 @@ class PharmacyController extends Controller
      */
     public function show(Pharmacy $pharmacy)
     {
-        $pharmacy->load(['warehouse', 'area', 'representative'])->whereHas('transactions', function ($q) {
-            $q->where('file_id', getDefaultFileId());
-        });
-        return view('pages.pharmacies.partials.show', compact('pharmacy'));
+        $warehouseId = auth()->user()->warehouse_id;
+        $fileId = getDefaultFileId();
+
+        // تحميل العلاقات الأساسية
+        $pharmacy->load(['warehouse', 'area', 'representative']);
+
+        // جلب العمليات paginated + علاقاتها
+        $transactions = $pharmacy->transactions()
+            ->with(['product', 'representative', 'file'])
+            ->where('warehouse_id', $warehouseId)
+            ->where('file_id', $fileId)
+            ->latest()
+            ->paginate(10);
+
+
+        // استعلام أساسي واحد بدل 4 استعلامات مكررة
+        $baseQuery = $pharmacy->transactions()
+            ->where('warehouse_id', $warehouseId)
+            ->where('file_id', $fileId);
+
+        // نجمع الإحصائيات بكفاءة
+        $stats = [
+            'transactions_count' => (int) $baseQuery->count(),
+            'value_income'       => (float) $baseQuery->sum('value_income'),
+            'value_output'       => (float) $baseQuery->sum('value_output'),
+            'value_gift'         => (float) $baseQuery->sum('value_gift'),
+            'quantity_product'   => (int) $baseQuery->sum('quantity_product'),
+            'quantity_gift'      => (int) $baseQuery->sum('quantity_gift'),
+
+            'sales_count'   => (int) $baseQuery->where('type', 'Wholesale Sale')->count(),
+            'returns_count' => (int) $baseQuery->where('type', 'Wholesale Return')->count(),
+        ];
+
+        return view('pages.pharmacies.partials.show', compact('pharmacy', 'transactions', 'stats'));
     }
+
 
     /**
      * Show the form for editing the specified resource.

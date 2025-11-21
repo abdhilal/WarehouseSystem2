@@ -102,7 +102,7 @@ class FileController extends Controller
         ]);
 
         $file = File::where('code', $validated['file'])->first();
-        $fileDefault = File::where('is_default', 1)->first();
+        $fileDefault = File::where('warehouse_id', auth()->user()->warehouse_id)->where('is_default', 1)->first();
         if ($fileDefault) {
             $fileDefault->update([
                 'is_default' => 0,

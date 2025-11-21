@@ -40,7 +40,7 @@
               @forelse ($pharmacies as $index => $pharmacy)
                 <tr>
                   <td>{{ $index + 1 }}</td>
-                  <td>{{ $pharmacy->name }}</td>
+                  <td><a href="{{ route('pharmacies.show', $pharmacy) }}" class="text-decoration-none">{{ $pharmacy->name }}</a></td>
                   <td>{{ $pharmacy->warehouse?->name }}</td>
                   <td>{{ $pharmacy->area?->name }}</td>
                   <td>{{ $pharmacy->representative?->name }}</td>

@@ -68,7 +68,6 @@ class RepresentativeController extends Controller
             'quantity_product' => $transactions->sum('quantity_product'),
             'Wholesale_Sale' => $transactions->where('type', 'Wholesale Sale')->count(),
             'Wholesale_Return' => $transactions->where('type', 'Wholesale Return')->count(),
-            'date' => $transactions->first()->file->month . '-' . $transactions->first()->file->year,
         ];
 
         $pharmacyTotals = $transactions->groupBy('pharmacy_id')->map(function ($ts) {
