@@ -1,5 +1,5 @@
         <footer class="footer">
-          <div class="container-fluid">
+          <div class="container-fluid" style="padding: 10px 0;">
             <div class="row mb-4">
               {{-- <div class="col-md-6 footer-copyright">
                 <p class="mb-0">Copyright 2024 © Admiro theme by pixelstrap.</p>

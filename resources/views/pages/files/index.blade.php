@@ -18,15 +18,20 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5>{{ __('Files Manager') }}</h5>
-                        <div class="d-flex gap-2">
 
-                            <x-create :action="route('files.upload')" />
-                        </div>
 
                     </div>
                     <br>
-                    <a href="{{ route('files.export') }}" class="btn btn-outline-primary"><i class="fa-solid fa-download"></i>
-                        {{ __('Export') }}</a>
+                   <div >
+                        <a href="{{ route('files.export') }}" class="btn btn-outline-primary"><i
+                                class="iconly-Upload icli"></i>
+                            {{ __('Export') }}</a>
+
+
+                        <a href="{{ route('files.upload') }}" class="btn btn-outline-success"><i
+                                class="fa-solid fa-download"></i>
+                            {{ __('Import') }}</a>
+                    </div>
 
                 </div>
                 <div class="card-body">

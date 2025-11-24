@@ -1,16 +1,15 @@
 @extends('layouts.app')
 @section('title')
-    {{__('Items.list')}}
+    {{__('')}}
 @endsection
 @section('subTitle')
-    {{ __('Items.list') }}
+    {{ __('') }}
 @endsection
 @section('breadcrumb')
-    {{ __('Items') }}
+    {{ __('') }}
 @endsection
 @section('breadcrumbActive')
-    {{ __('Items') }}
+    {{ __('') }}
 @endsection
 @section('content')
-items
 @endsection

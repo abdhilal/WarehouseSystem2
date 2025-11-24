@@ -87,7 +87,7 @@ return [
         'items' => [
             [
                 'label' => 'items',
-                'icon'  => '<i class="iconly-Upload icli"></i>',
+                'icon'  => '<i class="iconly-More-Circle icli"></i>',
                 'children' => [
                     [
                         'label' => 'Warehouses',
