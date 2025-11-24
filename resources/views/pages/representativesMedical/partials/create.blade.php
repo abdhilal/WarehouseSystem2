@@ -27,7 +27,7 @@
               <div class="border rounded p-2" style="max-height: 180px; overflow-y: auto;">
                 @foreach($areas as $area)
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="area_ids[]" id="area_{{ $area->id }}" value="{{ $area->id }}" @checked(collect(old('area_ids', []))->contains($area->id))>
+                    <input class="form-check-input" type="checkbox" name="area_ids[]" id="area_{{ $area->id }}" value="{{ $area->id }}" @checked(collect(old('area_ids', []))->contains($area->id)) >
                     <label class="form-check-label" for="area_{{ $area->id }}">{{ $area->name }}</label>
                   </div>
                 @endforeach

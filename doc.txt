@@ -1,0 +1,713 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('warehouses', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('location')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('warehouses');
+    }
+};
+
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('areas', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->foreignId('warehouse_id')->nullable()->constrained('warehouses')->onDelete('set null');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('areas');
+    }
+};
+
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('representatives', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->enum('type', ['sales', 'medical']);
+            $table->foreignId('warehouse_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('representatives');
+    }
+};
+
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->rememberToken();
+            $table->timestamps();
+        });
+
+        Schema::create('password_reset_tokens', function (Blueprint $table) {
+            $table->string('email')->primary();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
+        });
+
+        Schema::create('sessions', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->foreignId('user_id')->nullable()->index();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->longText('payload');
+            $table->integer('last_activity')->index();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('users');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('sessions');
+    }
+};
+
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('pharmacies', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->foreignId('area_id')->constrained()->onDelete('cascade');
+            $table->foreignId('representative_id')->nullable()->constrained('representatives')->onDelete('set null');
+            $table->foreignId('warehouse_id')->constrained()->onDelete('cascade');
+
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('pharmacies');
+    }
+};
+
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('factories', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('factories');
+    }
+};
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('products', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('factory_id')->constrained()->onDelete('cascade');
+            $table->string('name');      // الاسم التجاري
+            $table->decimal('unit_price', 12, 2)->nullable();
+            $table->foreignId('warehouse_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('products');
+    }
+};
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('files', function (Blueprint $table) {
+            $table->id();
+            $table->string('code')->unique();
+            $table->string('path');
+            $table->tinyInteger('month')->unsigned();
+            $table->smallInteger('year')->unsigned();
+            $table->boolean('is_default')->default(false);
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('files');
+    }
+};
+
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('transactions', function (Blueprint $table) {
+            $table->id();
+            $table->enum('type', ['Wholesale Sale', 'Wholesale Return']);
+            $table->foreignId('pharmacy_id')->constrained()->onDelete('cascade');
+            $table->integer('quantity_product')->default(0);
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->integer('quantity_gift')->default(0);
+            $table->decimal('value_income', 15, 2)->default(0);
+            $table->decimal('value_output', 15, 2)->default(0);
+            $table->foreignId('representative_id')->constrained('representatives')->onDelete('cascade');
+            $table->foreignId('area_id')->constrained('areas')->onDelete('cascade');
+            $table->decimal('value_gift', 15, 2)->default(0);
+
+
+
+            $table->foreignId('warehouse_id')->constrained()->onDelete('cascade');
+            $table->foreignId('file_id')->nullable()->constrained('files')->onDelete('set null');
+
+
+
+
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('transactions');
+    }
+};
+
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('area_representative', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('area_id')->constrained()->onDelete('cascade');
+            $table->foreignId('representative_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('area_representative');
+    }
+};
+
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Area extends Model
+{
+    use HasFactory;
+
+    protected $fillable = ['name', 'warehouse_id'];
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
+    public function pharmacies()
+    {
+        return $this->hasMany(Pharmacy::class);
+    }
+
+    public function representatives()
+    {
+        return $this->belongsToMany(Representative::class, 'area_representative');
+    }
+
+    public function salesReps()
+    {
+        return $this->representatives()->where('type', 'sales');
+    }
+
+    public function medicalReps()
+    {
+        return $this->representatives()->where('type', 'medical');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+}
+
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class AreaRepresentative extends Model
+{
+    /** @use HasFactory<\Database\Factories\AreaRepresentativeFactory> */
+    use HasFactory;
+
+    protected $table = 'area_representative';
+
+
+    protected $fillable = [
+        'area_id',
+        'representative_id',
+    ];
+}
+
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Factory extends Model
+{
+    use HasFactory;
+
+    protected $fillable = ['name'];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+}
+
+
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class File extends Model
+{
+    /** @use HasFactory<\Database\Factories\FileFactory> */
+    use HasFactory;
+
+    protected $fillable = [
+        'code',
+        'month',
+        'path',
+        'year',
+        'warehouse_id',
+        'is_default',
+    ];
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'file_id');
+    }
+
+
+}
+
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Pharmacy extends Model
+{
+    use HasFactory;
+
+    protected $fillable = ['name', 'area_id', 'representative_id', 'warehouse_id'];
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
+    }
+
+    public function representative()
+    {
+        return $this->belongsTo(Representative::class, 'representative_id');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+}
+
+
+
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Product extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'factory_id', 'name', 'unit_price', 'warehouse_id'
+    ];
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
+    public function factory()
+    {
+        return $this->belongsTo(Factory::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+}
+
+
+
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Representative extends Model
+{
+    /** @use HasFactory<\Database\Factories\RepresentativeFactory> */
+    use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'type',
+        'warehouse_id',
+    ];
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class, 'warehouse_id');
+    }
+    public function pharmacies()
+    {
+        return $this->hasMany(Pharmacy::class);
+    }
+    public function areas()
+    {
+        return $this->belongsToMany(Area::class, 'area_representative');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+}
+
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Transaction extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'type',
+        'pharmacy_id',
+        'quantity_product',
+        'product_id',
+        'quantity_gift',
+        'value_income',
+        'value_output',
+        'representative_id',
+        'area_id',
+        'value_gift',
+
+
+        'warehouse_id',
+        'file_id',
+    ];
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
+
+
+    public function pharmacy()
+    {
+        return $this->belongsTo(Pharmacy::class);
+    }
+
+    public function representative()
+    {
+        return $this->belongsTo(Representative::class, 'representative_id');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function file()
+    {
+        return $this->belongsTo(File::class);
+    }
+
+
+}
+
+<?php
+
+namespace App\Models;
+
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
+
+
+class User extends Authenticatable
+{
+    use HasFactory, Notifiable, HasRoles;
+
+    protected $fillable = [
+        'name', 'email', 'password', 'role', 'area_id', 'warehouse_id', 'representative_id'
+    ];
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
+
+
+
+
+
+
+    public function files()
+    {
+        return $this->hasMany(File::class, 'representative_id');
+    }
+}
+
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Warehouse extends Model
+{
+    use HasFactory;
+
+    protected $fillable = ['name', 'location'];
+
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
+
+    public function areas()
+    {
+        return $this->hasMany(Area::class);
+    }
+
+    public function pharmacies()
+    {
+        return $this->hasMany(Pharmacy::class);
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
+    public function representatives()
+    {
+        return $this->hasMany(Representative::class);
+    }
+}
+
+

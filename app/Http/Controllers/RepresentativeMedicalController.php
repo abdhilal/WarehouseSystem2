@@ -41,7 +41,8 @@ class RepresentativeMedicalController extends Controller
     public function create()
     {
         $warehouses = Warehouse::orderBy('name')->get();
-        $areas = Area::orderBy('name')->get();
+        $areas = Area::orderBy('name')->doesntHave('medicalReps')->get();
+
         return view('pages.representativesMedical.partials.create', compact('warehouses', 'areas'));
     }
 
@@ -57,47 +58,64 @@ class RepresentativeMedicalController extends Controller
 
     public function show($representativeId)
     {
+        // جلب المندوب العلمي مع المخزن والمناطق
+        $representative = Representative::with(['warehouse', 'areas'])->findOrFail($representativeId);
 
-        $representative = Representative::with(['warehouse', 'areas'])->find($representativeId);
+        $fileId = getDefaultFileId();
+        $areaIds = $representative->areas->pluck('id');
 
-        $transactions = Transaction::where('file_id', getDefaultFileId())->with(['product', 'pharmacy', 'file'])->whereIn('area_id', $representative->areas->pluck('id'))->get();
-        $areas = Area::with('warehouse', 'transactions')->where('warehouse_id', $representative->warehouse_id)
-            ->whereHas('representatives', function ($query) use ($representative) {
-                $query->where('representative_id', $representative->id);
-            })
-            ->withSum('transactions', 'value_income')
-            ->withSum('transactions', 'value_output')
+        // جلب كل المعاملات الموجودة في مناطق هذا المندوب حسب الملف
+        $transactions = Transaction::with(['product', 'pharmacy', 'file'])
+            ->where('file_id', $fileId)
+            ->whereIn('area_id', $areaIds)
             ->get();
 
+        // جلب المناطق مع مجموع الدخل والخرج لكل منطقة بناءً على نفس الملف
+        $areas = Area::with('warehouse')
+            ->whereIn('id', $areaIds)
+            ->withSum(['transactions' => function ($q) use ($fileId) {
+                $q->where('file_id', $fileId);
+            }], 'value_income')
+            ->withSum(['transactions' => function ($q) use ($fileId) {
+                $q->where('file_id', $fileId);
+            }], 'value_output')
+            ->get();
 
+        // حساب المجموعات لجميع المعاملات في المناطق
         $date = [
-            'value_income' => $transactions->sum('value_income'),
-            'value_output' => $transactions->sum('value_output'),
-            'value_gift' => $transactions->sum('value_gift'),
-            'quantity_gift' => $transactions->sum('quantity_gift'),
-            'quantity_product' => $transactions->sum('quantity_product'),
+            'value_income' => (float) $transactions->sum('value_income'),
+            'value_output' => (float) $transactions->sum('value_output'),
+            'value_gift' => (float) $transactions->sum('value_gift'),
+            'quantity_gift' => (int) $transactions->sum('quantity_gift'),
+            'quantity_product' => (int) $transactions->sum('quantity_product'),
             'Wholesale_Sale' => $transactions->where('type', 'Wholesale Sale')->count(),
             'Wholesale_Return' => $transactions->where('type', 'Wholesale Return')->count(),
         ];
 
-
-        // return $date;
-        return view('pages.representativesMedical.partials.show', compact('representative', 'transactions', 'date', 'areas'));
+        return view('pages.representativesMedical.partials.show', compact(
+            'representative',
+            'transactions',
+            'date',
+            'areas'
+        ));
     }
+
+
+
 
     public function edit($representativeId)
     {
-        $representative=Representative::with(['warehouse', 'areas'])->find($representativeId);
+        $representative = Representative::with(['warehouse', 'areas'])->find($representativeId);
         $warehouses = Warehouse::orderBy('name')->get();
         $areas = Area::orderBy('name')->get();
         return view('pages.representativesMedical.partials.edit', compact('representative', 'warehouses', 'areas'));
     }
 
-    public function update(UpdateRepresentativeRequest $request, Representative $representative)
+    public function update(UpdateRepresentativeRequest $request,  $representativeId)
     {
         $data = $request->validated();
 
-        $this->service->updateRepresentativeMedical($representative, $data);
+        $this->service->updateRepresentativeMedical($representativeId, $data);
         return redirect()->route('representativesMedical.index')
             ->with('success', __('Representative Medical updated successfully.'));
     }

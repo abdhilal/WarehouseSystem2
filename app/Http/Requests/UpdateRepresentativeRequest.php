@@ -16,9 +16,8 @@ class UpdateRepresentativeRequest extends FormRequest
         $userId = $this->route('representative')?->id;
         return [
             'name' => 'required|string|max:150',
-       
-            'warehouse_id' => 'nullable|exists:warehouses,id',
-            'area_id' => 'nullable|exists:areas,id',
+            'area_ids' => 'required|array|min:1',
+            'area_ids.*' => 'exists:areas,id',
         ];
     }
 }

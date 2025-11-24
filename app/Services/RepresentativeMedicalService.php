@@ -37,9 +37,23 @@ class RepresentativeMedicalService
         return $areaRepresentatives;
     }
 
-    public function updateRepresentativeMedical(Representative $representative, array $data): bool
+    public function updateRepresentativeMedical($representativeId, array $data)
     {
-        return $representative->update($data);
+        $representative = Representative::find($representativeId);
+        $representative->update(['name' => $data['name']]);
+
+        AreaRepresentative::where('representative_id', $representative->id)->delete();
+
+
+        $insertData = [];
+
+        foreach ($data['area_ids'] as $area_id) {
+            $insertData[] = [
+                'representative_id' => $representative->id,
+                'area_id' => $area_id,
+            ];
+        }
+        $areaRepresentatives = AreaRepresentative::insert($insertData);
     }
 
     public function deleteRepresentativeMedical(Representative $representative): ?bool

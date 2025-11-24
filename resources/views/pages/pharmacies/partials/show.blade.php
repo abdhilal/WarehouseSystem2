@@ -110,7 +110,8 @@
                 <th>{{ __('Value Income') }}</th>
                 <th>{{ __('Value Output') }}</th>
                 <th>{{ __('Gift Value') }}</th>
-                <th>{{ __('Prodact Quantity') }}</th>
+                <th>{{ __('Quantity Gift') }}</th>
+                <th>{{ __('Quantity Product') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -123,6 +124,7 @@
                   <td>{{ number_format($t->value_income ?? 0, 2) }}</td>
                   <td>{{ number_format($t->value_output ?? 0, 2) }}</td>
                   <td>{{ number_format($t->value_gift ?? 0, 2) }}</td>
+                  <td>{{ $t->quantity_gift ?? ' ' }}</td>
                   <td>{{ $t->quantity_product ?? ' ' }}</td>
                 </tr>
               @empty

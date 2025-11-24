@@ -26,7 +26,7 @@
                 <div class="col-sm-12 col-xl-6 box-col-6">
                     <div class="card">
                         <div class="card-header card-no-border pb-0">
-                            <h3>{{ __('Transactions') }} — {{ $date['date'] ?? '' }}</h3>
+                            <h3>{{ __('Transactions') }}</h3>
                         </div>
                         <div class="card-body apex-chart">
                             <div id="donutchart"></div>
@@ -36,7 +36,7 @@
                 <div class="col-sm-12 col-xl-6 box-col-6">
                     <div class="card">
                         <div class="card-header card-no-border pb-0">
-                            <h3>{{ __('Transactions') }} — {{ $date['date'] ?? '' }}</h3>
+                            <h3>{{ __('Transactions') }}</h3>
                         </div>
                         <div class="card-body apex-chart">
                             <div id="piechart"></div>
@@ -86,7 +86,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($representative->pharmacies as $index => $pharmacy)
+                                @forelse ($pharmacies as $index => $pharmacy)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>
@@ -125,6 +125,7 @@
                             </thead>
                             <tbody>
                                 @forelse ($areas as $index => $area)
+                                @if($area->income_sum >0 || $area->output_sum >0)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>
@@ -133,9 +134,10 @@
                                             </a>
                                         </td>
                                         <td>{{ $area->warehouse?->name }}</td>
-                                        <td>{{ number_format($area->transactions_sum_value_income ?? 0, 2) }}</td>
-                                        <td>{{ number_format($area->transactions_sum_value_output ?? 0, 2) }}</td>
+                                        <td>{{ number_format($area->income_sum ?? 0, 2) }}</td>
+                                        <td>{{ number_format($area->output_sum ?? 0, 2) }}</td>
                                     </tr>
+                                    @endif
                                 @empty
                                     <tr>
                                         <td colspan="5">{{ __('No areas found') }}</td>

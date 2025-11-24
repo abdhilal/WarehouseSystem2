@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('name');      // الاسم التجاري
             $table->decimal('unit_price', 12, 2)->nullable();
             $table->foreignId('warehouse_id')->constrained()->onDelete('cascade');
-
             $table->timestamps();
         });
     }

@@ -25,6 +25,7 @@ class Area extends Model
     {
         return $this->belongsToMany(Representative::class, 'area_representative');
     }
+   
 
     public function salesReps()
     {
