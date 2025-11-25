@@ -99,13 +99,13 @@
 
 
 
-                            <li class="d-flex">
+                            <li class="d-flex align-items-center gap-2">
 
                                 <use href="{{ asset('assets/svg/iconly-sprite.svg#Login') }}"></use>
                                 <form action="{{ route('logout') }}" method="POST">
                                     @csrf
 
-                                    <button type="submit" class="ms-2">Log Out</button>
+                                    <button type="submit" class="btn btn-primary btn-sm ms-2">{{ __('Log Out') }}</button>
                                 </form>
 
                             </li>
