@@ -1,0 +1,44 @@
+name: Deploy Laravel Changes to InfinityFree (No Public Folder)
+
+on:
+  push:
+    branches:
+      - main    # أو master حسب الفرع لديك
+
+jobs:
+  ftp-deploy:
+    name: FTP Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Deploy only backend changes
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ftpupload.net
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          protocol: ftp
+
+          # مجلد مشروعك كله محلياً
+          local-dir: ./
+
+          # مجلد Laravel في الاستضافة (خارج htdocs)
+          server-dir: /htdocs/  # عدله حسب مسارك
+
+          # استثناء ملفات لا نريد رفعها
+          exclude: |
+            **/public/**
+            public/**
+            node_modules/**
+            vendor/**
+            .git/**
+            .github/**
+            storage/logs/**
+            storage/framework/cache/**
+            storage/framework/sessions/**
+            *.env
+            composer.lock
+            package-lock.json
