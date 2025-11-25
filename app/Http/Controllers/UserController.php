@@ -7,33 +7,37 @@ use App\Models\User;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use App\Services\UserService;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreUserRequest;
 use App\Services\RepresentativeService;
 use App\Http\Requests\UpdateUserRequest;
+use Spatie\Permission\Models\Permission;
 use App\Http\Requests\StoreRepresentativeRequest;
 use App\Http\Requests\UpdateRepresentativeRequest;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
 
 class UserController extends Controller
 {
+    use AuthorizesRequests;
     protected $service;
 
     public function __construct(UserService $service)
     {
         $this->service = $service;
-
     }
 
     public function index(Request $request)
     {
+        $this->authorize('viewAny', User::class);
         $users = $this->service->getUsers($request);
         return view('pages.users.index', compact('users'));
     }
 
     public function create()
     {
+        $this->authorize('create', User::class);
         $warehouses = Warehouse::orderBy('name')->get();
         $areas = Area::orderBy('name')->get();
         return view('pages.users.partials.create', compact('warehouses', 'areas'));
@@ -41,6 +45,7 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
+        $this->authorize('create', User::class);
         $data = $request->validated();
         $data['password'] = Hash::make($data['password']);
         $user = $this->service->createUser($data);
@@ -51,6 +56,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
+        $this->authorize('view', $user);
         $user->load(['warehouse']);
         return view('pages.users.partials.show', compact('user'));
     }
@@ -77,15 +83,29 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        $this->authorize('delete', $user);
         $this->service->deleteUser($user);
         return redirect()->back()
             ->with('success', __('User deleted successfully.'));
+    }
+
+    public function impersonate(User $user)
+    {
+        $this->authorize('impersonate', $user);
+        if (auth()->id() === $user->id) {
+            return redirect()->route('dashboard');
+        }
+        session(['impersonator_id' => auth()->id()]);
+        auth()->login($user);
+        return redirect()->route('dashboard')
+            ->with('success', __('Logged in as :name', ['name' => $user->name]));
     }
 
 
 
     public function managePermissions(Request $request)
     {
+        $this->authorize('managePermissions', User::class);
         $users = User::orderBy('name')->get();
         $selectedUserId = $request->query('user');
         $selectedUser = $selectedUserId ? User::find($selectedUserId) : null;
@@ -106,6 +126,7 @@ class UserController extends Controller
 
     public function updatePermissions(Request $request, User $user)
     {
+        $this->authorize('managePermissions', User::class);
         $data = $request->validate([
             'permissions' => ['array'],
             'permissions.*' => ['string'],

@@ -38,11 +38,20 @@
                                         <td>{{ $user->id }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
-                                   
+
                                         <td>
                                             <x-show :action="route('users.show', $user)" />
                                             <x-edit :action="route('users.edit', $user)" />
                                             <x-delete-form :action="route('users.destroy', $user)" />
+                                            @can(['create-user',])
+                                                <form action="{{ route('users.impersonate', $user) }}" method="POST"
+                                                    class="d-inline">
+                                                    @csrf
+                                                    <button type="submit"
+                                                        class="btn btn-primary btn-sm">{{ __('Login') }}</button>
+                                                </form>
+                                            @endcan
+
                                         </td>
                                     </tr>
                                 @empty

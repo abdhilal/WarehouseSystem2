@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/users/permissions', [UserController::class, 'managePermissions'])->name('users.permissions.manage');
     Route::post('/users/{user}/permissions', [UserController::class, 'updatePermissions'])
         ->name('users.permissions.update');
+    Route::post('/users/{user}/impersonate', [UserController::class, 'impersonate'])->name('users.impersonate');
     Route::resource('/users', UserController::class);
 
     Route::delete('/files/destroy/{id}', [FileController::class, 'destroy'])->name('files.destroy');

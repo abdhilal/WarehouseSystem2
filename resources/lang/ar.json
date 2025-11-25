@@ -209,6 +209,11 @@
     "Net": "الصافي",
     "Entities Status": "حالة الكيانات",
     "Best Representatives (Medical)": "أفضل المندوبين (العلمي)",
-    "Best Representatives (Sales)": "أفضل المندوبين (مبيعات)"
+    "Best Representatives (Sales)": "أفضل المندوبين (مبيعات)",
+    "Login":"دخول",
+    "403 - Forbidden":"403 - ممنوع",
+    "Sorry, You Don't Have Permission":"عذراً، ليس لديك صلاحية",
+    "The page you are attempting to reach is currently not available. This may be because the page does not exist or has been moved.":"الصفحة التي تريد الوصول إليها غير متوفرة حاليًا. قد يكون ذلك بسبب عدم وجود الصفحة أو تم نقلها.",
+    "BACK TO HOME PAGE":"العودة إلى الصفحة الرئيسية"
 
 }
