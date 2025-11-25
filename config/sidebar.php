@@ -28,6 +28,13 @@ return [
                         'icon'  => 'Shield',
                         'route' => 'users.permissions.manage'
                     ],
+                    [
+                        'label' => 'Warehouses',
+                        'icon'  => 'Archive',
+                        'route' => 'warehouses.index',
+                        'permissions' => ['view-user']
+
+                    ],
 
                 ]
             ],
@@ -89,11 +96,7 @@ return [
                 'label' => 'items',
                 'icon'  => '<i class="iconly-More-Circle icli"></i>',
                 'children' => [
-                    [
-                        'label' => 'Warehouses',
-                        'icon'  => 'Archive',
-                        'route' => 'warehouses.index'
-                    ],
+
                     [
                         'label' => 'Factories',
                         'icon'  => 'Layers',
