@@ -56,7 +56,7 @@
                                                 <th>{{ __('Pharmacy') }}</th>
                                                 <th>{{ __('Representative') }}</th>
 
-                                                <th>{{ __('Output') }}</th>
+                                                <th>{{ __('Sales') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -88,8 +88,8 @@
                                             <tr>
                                                 <th>{{ __('Representative') }}</th>
                                                 <th>{{ __('Operations') }}</th>
-                                                <th>{{ __('Income') }}</th>
-                                                <th>{{ __('Output') }}</th>
+                                                <th>{{ __('Returns') }}</th>
+                                                <th>{{ __('Sales') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -174,10 +174,10 @@
                                     <li class="d-flex align-items-center gap-2">
                                         <div class="flex-grow-1">
                                             <h6>{{ $name }}</h6>
-                                            <p>{{ __('Operations') }}: {{ $stats['count'] }}</p>
+                                            <p>{{ __('Quantity') }}: {{ $stats['pieces'] }}</p>
                                         </div>
                                         <div class="recent-text">
-                                            <h5>{{ number_format($stats['value_income'], 2) }}</h5>
+                                            <h5>{{ number_format($stats['value_output'], 2) }}</h5>
                                         </div>
                                     </li>
                                 @endforeach
@@ -203,8 +203,8 @@
                                         <tr>
                                             <th>{{ __('Representative') }}</th>
                                             <th>{{ __('Operations') }}</th>
-                                            <th>{{ __('Income') }}</th>
-                                            <th>{{ __('Output') }}</th>
+                                            <th>{{ __('Returns') }}</th>
+                                            <th>{{ __('Sales') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -238,8 +238,8 @@
                                         <tr>
                                             <th>{{ __('Type') }}</th>
                                             <th>{{ __('Count') }}</th>
-                                            <th>{{ __('Income') }}</th>
-                                            <th>{{ __('Output') }}</th>
+                                            <th>{{ __('Returns') }}</th>
+                                            <th>{{ __('Sales') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -274,8 +274,8 @@
                                     <tr>
                                         <th>{{ __('Area') }}</th>
                                         <th>{{ __('Operations') }}</th>
-                                        <th>{{ __('Income') }}</th>
-                                        <th>{{ __('Output') }}</th>
+                                        <th>{{ __('Returns') }}</th>
+                                        <th>{{ __('Sales') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -314,8 +314,8 @@
                                     <tr>
                                         <th>{{ __('Pharmacy') }}</th>
                                         <th>{{ __('Operations') }}</th>
-                                        <th>{{ __('Income') }}</th>
-                                        <th>{{ __('Output') }}</th>
+                                        <th>{{ __('Returns') }}</th>
+                                        <th>{{ __('Sales') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>

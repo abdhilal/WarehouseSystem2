@@ -23,7 +23,7 @@ class DashboardController extends Controller
         $type = $request->filled('type') ? $request->string('type')->toString() : null;
 
         $fileKey = is_null($activeFileId) ? 'all' : $activeFileId;
-        $cacheKey = "dashboard_v2_stats_sort_output_{$warehouseId}_{$fileKey}_{$type}";
+        $cacheKey = "dashboard_v5_stats_sort_output_{$warehouseId}_{$fileKey}_{$type}";
         $data = Cache::remember($cacheKey, 300, function () use ($warehouseId, $activeFileId, $type) {
             $query = Transaction::query()
                 ->where('warehouse_id', $warehouseId)
@@ -56,11 +56,15 @@ class DashboardController extends Controller
                 ])->toArray();
 
             $grouped_by_product = $transactions->groupBy(fn($t) => optional($t->product)->name ?? 'غير محدد')
-                ->map(fn($g) => [
-                    'count'  => $g->count(),
-                    'value_income' => (float) $g->sum('value_income'),
-                    'value_output' => (float) $g->sum('value_output'),
-                ])->sortByDesc('value_income')->take(10);
+                ->map(function ($g) {
+                    $sold = $g->filter(fn($t) => $t->type === 'Wholesale Sale');
+                    return [
+                        'count'  => $g->count(),
+                        'value_income' => (float) $g->sum('value_income'),
+                        'value_output' => (float) $g->sum('value_output'),
+                        'pieces' => (int) ($sold->sum('quantity_product') + $sold->sum('quantity_gift')),
+                    ];
+                })->sortByDesc('pieces')->take(10);
 
             $grouped_by_pharmacy = $transactions->groupBy(fn($t) => optional($t->pharmacy)->name ?? 'غير محدد')
                 ->map(fn($g) => [
