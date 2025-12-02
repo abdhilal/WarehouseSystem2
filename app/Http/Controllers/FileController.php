@@ -27,22 +27,7 @@ class FileController extends Controller
         $query->where('warehouse_id', $user->warehouse_id);
 
 
-        if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->where(function ($q) use ($search) {
-                $q->where('code', 'like', "%{$search}%")
-                    ->orWhere('path', 'like', "%{$search}%");
-            });
-        }
-
-        if ($request->filled('month')) {
-            $query->where('month', (int) $request->input('month'));
-        }
-        if ($request->filled('year')) {
-            $query->where('year', (int) $request->input('year'));
-        }
-
-        $files = $query->orderBy('month_year', 'desc')->latest()->paginate(20);
+        $files = $query->orderBy('month_year', 'desc')->paginate(20);
         return view('pages.files.index', compact('files'));
     }
 
