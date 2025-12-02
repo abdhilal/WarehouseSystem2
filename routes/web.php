@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/products', ProductController::class);
     Route::resource('/transactions', TransactionController::class);
     Route::resource('/representativesMedical', RepresentativeMedicalController::class);
+    Route::put('/isActive/representativesMedical/{representative}', [RepresentativeMedicalController::class, 'isActive'])->name('isActive.representativesMedical');
 
     Route::get('/users/permissions', [UserController::class, 'managePermissions'])->name('users.permissions.manage');
     Route::post('/users/{user}/permissions', [UserController::class, 'updatePermissions'])

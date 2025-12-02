@@ -48,6 +48,12 @@ class RepresentativeMedicalService
         return $representative->delete();
     }
 
+    public function isActiveRepresentativeMedical(Representative $representative): void
+    {
+        $representative->is_active = ! (bool) $representative->is_active;
+        $representative->save();
+    }
+
     public function getRepresentativesMedical(Request $request = null)
     {
         // dd($request);

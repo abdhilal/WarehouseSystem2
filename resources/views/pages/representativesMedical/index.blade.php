@@ -42,6 +42,7 @@
                                     <th>{{ __('Areas') }}</th>
                                     <th>{{ __('Value Income') }}</th>
                                     <th>{{ __('Value Output') }}</th>
+                                    <th>{{ __('Status') }}</th>
                                     <th>{{ __('actions') }}</th>
                                 </tr>
                             </thead>
@@ -59,6 +60,9 @@
                                         <td>{{ number_format($repAreaTotals[$representative->id]['income'] ?? 0, 2) }}
                                         </td>
                                         <td>{{ number_format($repAreaTotals[$representative->id]['output'] ?? 0, 2) }}
+                                        </td>
+                                        <td>
+                                            <x-toggle-active :model="$representative" action="isActive.representativesMedical" />
                                         </td>
                                         <td>
                                             @can('show-representative')

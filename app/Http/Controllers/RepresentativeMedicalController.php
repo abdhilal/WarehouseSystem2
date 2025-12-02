@@ -132,4 +132,11 @@ class RepresentativeMedicalController extends Controller
         return redirect()->back()
             ->with('success', __('Representative deleted successfully.'));
     }
+
+    public function isActive(Request $request, Representative $representative)
+    {
+        $this->service->isActiveRepresentativeMedical($representative);
+        return redirect()->back()
+            ->with('success', __('Representative Medical updated successfully.'));
+    }
 }

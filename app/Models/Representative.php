@@ -14,6 +14,7 @@ class Representative extends Model
         'name',
         'type',
         'warehouse_id',
+        'is_active',
     ];
 
     public function warehouse()

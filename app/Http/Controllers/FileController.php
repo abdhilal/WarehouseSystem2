@@ -59,7 +59,7 @@ class FileController extends Controller
             'path'         => $path,
         ]);
 
-        $representatives = Representative::where('warehouse_id', auth()->user()->warehouse_id)->where('type', 'medical')->get();
+        $representatives = Representative::where('warehouse_id', auth()->user()->warehouse_id)->where('type', 'medical')->where('is_active', 1)->get();
         $representatives->each(function ($representative) use ($fileRecord) {
             $representative->files()->attach($fileRecord->id);
         });
