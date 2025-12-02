@@ -65,12 +65,14 @@ class FileController extends Controller
         $path = $file->storeAs('uploads/files', $filename, 'public');
 
         $fileRecord = File::create([
-            'code'         =>  $filename,
+            'code'         => $filename,
             'month'        => (int) $request->month,
             'year'         => (int) $request->year,
+            'month_year'   => $request->year . '-' . str_pad($request->month, 2, '0', STR_PAD_LEFT) . '-01',
             'warehouse_id' => auth()->user()->warehouse_id,
             'path'         => $path,
         ]);
+
 
         Excel::import(new FilesImport($fileRecord->id, auth()->user()->warehouse_id), $file);
         DB::commit();

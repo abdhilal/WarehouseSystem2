@@ -17,6 +17,7 @@ class File extends Model
         'year',
         'warehouse_id',
         'is_default',
+        'month_year',
     ];
 
     public function transactions()

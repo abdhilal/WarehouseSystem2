@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Transaction;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\FileController;
@@ -8,13 +10,12 @@ use App\Http\Controllers\FactoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PharmacyController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\RepresentativeController;
 use App\Http\Controllers\UserPermissionController;
 use App\Http\Controllers\RepresentativeMedicalController;
-use App\Http\Controllers\DashboardController;
-
 
 Route::get('/locale/{locale}', function (string $locale) {
     if (!in_array($locale, ['ar', 'en'])) {
@@ -64,6 +65,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/files/download/{id}', [FileController::class, 'downloadFile'])->name('files.download');
     Route::get('/files/upload', [FileController::class, 'upload'])->name('files.upload');
     Route::post('/files/filter', [FileController::class, 'FileFilter'])->name('files.filter');
+});
+
+
+Route::get('/test',function(){
+
+$tra=Transaction::where('file_id',2)->where('warehouse_id',Auth::user()->warehouse_id)->where('type','Wholesale Sale')->get();
+return $tra;
+
 });
 
 require __DIR__ . '/auth.php';
