@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\File;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -70,8 +71,12 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/test',function(){
 
-$tra=Transaction::where('file_id',2)->where('warehouse_id',Auth::user()->warehouse_id)->where('type','Wholesale Sale')->get();
-return $tra;
+    $files=File::all();
+    foreach($files as $file){
+        $file->month_year = $file->year . '-' . str_pad($file->month, 2, '0', STR_PAD_LEFT) . '-01';
+        $file->save();
+    }
+    return $file;
 
 });
 
