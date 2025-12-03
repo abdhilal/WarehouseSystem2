@@ -166,6 +166,9 @@
 @push('scripts')
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    function formatNumber(val) {
+      return Number(val).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
     var options = {
       chart: {
         type: 'donut',
@@ -183,6 +186,7 @@
       ],
       legend: { position: 'bottom' },
       dataLabels: { enabled: true },
+      tooltip: { y: { formatter: formatNumber } },
     };
 
     var chart = new ApexCharts(document.querySelector('#donutchart'), options);
@@ -207,15 +211,17 @@
       ],
       legend: { position: 'bottom' },
       dataLabels: { enabled: true },
+      tooltip: { y: { formatter: formatNumber } },
     };
 
     var chartPie = new ApexCharts(document.querySelector('#piechart'), optionsPie);
     chartPie.render();
 
     var barData = @json($summary);
-    var categories = Object.values(barData).map(function (d) { return d.date; });
-    var incomeSeries = Object.values(barData).map(function (d) { return parseFloat(d.value_income || 0); });
-    var outputSeries = Object.values(barData).map(function (d) { return parseFloat(d.value_output || 0); });
+    var items = Object.values(barData).sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
+    var categories = items.map(function (d) { return d.date; });
+    var incomeSeries = items.map(function (d) { return parseFloat(d.value_income || 0); });
+    var outputSeries = items.map(function (d) { return parseFloat(d.value_output || 0); });
     var chartWidth = Math.max((categories.length || 1) * 100, 800);
     document.getElementById('rep-bar-chart').style.minWidth = chartWidth + 'px';
 
@@ -229,11 +235,11 @@
       dataLabels: { enabled: false },
       stroke: { show: true, width: 2, colors: ['transparent'] },
       xaxis: { categories: categories },
-      yaxis: { labels: { formatter: function (val) { return Number(val).toFixed(2); } } },
+      yaxis: { labels: { formatter: formatNumber } },
       fill: { opacity: 1 },
       colors: ['#51bb25', '#ff3a3a'],
       legend: { position: 'bottom' },
-      tooltip: { y: { formatter: function (val) { return Number(val).toFixed(2); } } }
+      tooltip: { y: { formatter: formatNumber } }
     };
 
     var barChart = new ApexCharts(document.querySelector('#rep-bar-chart'), barOptions);

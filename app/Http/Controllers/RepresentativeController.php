@@ -59,7 +59,8 @@ class RepresentativeController extends Controller
         }
 
 
-        $files = File::where('warehouse_id', $representative->warehouse_id)->orderBy('month_year')->get();
+        $files = File::where('warehouse_id', $representative->warehouse_id)->orderBy('month_year', 'desc')->get();
+
 
         $transactionsSummary = Transaction::where('representative_id', $representative->id)->get();
 
@@ -74,6 +75,7 @@ class RepresentativeController extends Controller
                 'date' => $file->month_year,
             ];
         }
+
 
         $fileId = getDefaultFileId();
 
