@@ -137,8 +137,8 @@
     "Wholesale Sale": "مبيع جملة",
     "Wholesale Return": "مرتجع جملة",
     "Gift": "هدية",
-    "Value Income": "قيمة الداخل",
-    "Value Output": "قيمة الخارج",
+    "Value Income": "قيمة المرتج",
+    "Value Output": "قيمة المبيع",
     "Quantity Product": "كمية المنتج",
     "Quantity Gift": "كمية الهدايا",
     "Representative details": "تفاصيل المندوب",
@@ -234,7 +234,8 @@
     "No tree products found":"لم يتم العثور على شجرة المنتجات",
     "Tree Products uploaded successfully":"تم رفع شجرة المنتجات بنجاح.",
     "Tree Products deleted successfully":"تم حذف شجرة المنتجات بنجاح.",
-    "Tree Product deleted successfully":"تم حذف شجرة المنتجات بنجاح."
+    "Tree Product deleted successfully":"تم حذف شجرة المنتجات بنجاح.",
+    "Work Summary":"ملخص العمل"
 
 
 }

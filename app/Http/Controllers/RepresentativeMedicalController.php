@@ -86,6 +86,31 @@ class RepresentativeMedicalController extends Controller
             }], 'value_output')
             ->get();
 
+
+
+
+        $files = File::where('warehouse_id', auth()->user()->warehouse_id)->orderBy('month_year', 'desc')->get();
+
+
+
+
+        $summary = [];
+
+        foreach ($files as $file) {
+            // جلب جميع المعاملات للملف الحالي والمناطق المحددة
+            $filtered = Transaction::where('file_id', $file->id)
+                ->whereIn('area_id', $areaIds) // هنا نحدد المناطق
+                ->get();
+
+            $summary[$file->id] = [
+                'value_income'     => (float) $filtered->sum('value_income'),
+                'value_output'     => (float) $filtered->sum('value_output'),
+                'date'             => $file->month_year,
+            ];
+        }
+
+
+
         // حساب المجموعات لجميع المعاملات في المناطق
         $date = [
             'value_income' => (float) $transactions->sum('value_income'),
@@ -100,6 +125,7 @@ class RepresentativeMedicalController extends Controller
         return view('pages.representativesMedical.partials.show', compact(
             'representative',
             'transactions',
+            'summary',
             'date',
             'areas'
         ));
