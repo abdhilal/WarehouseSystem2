@@ -49,8 +49,8 @@
                             <div class="card-header card-no-border pb-0">
                                 <h3>{{ __('Bar Chart') }}</h3>
                             </div>
-                            <div class="card-body apex-chart">
-                                <div id="rep-bar-chart"></div>
+                            <div class="card-body apex-chart" style="overflow-x: auto;">
+                                <div id="rep-bar-chart" style="min-width: 800px;"></div>
                             </div>
                         </div>
                     </div>
@@ -216,13 +216,15 @@
     var categories = Object.values(barData).map(function (d) { return d.date; });
     var incomeSeries = Object.values(barData).map(function (d) { return parseFloat(d.value_income || 0); });
     var outputSeries = Object.values(barData).map(function (d) { return parseFloat(d.value_output || 0); });
+    var chartWidth = Math.max((categories.length || 1) * 100, 800);
+    document.getElementById('rep-bar-chart').style.minWidth = chartWidth + 'px';
 
     var barOptions = {
       series: [
         { name: "{{ __('Value Output') }}", data: outputSeries },
         { name: "{{ __('Value Income') }}", data: incomeSeries }
       ],
-      chart: { type: 'bar', height: 380, toolbar: { show: false } },
+      chart: { type: 'bar', height: 380, width: chartWidth, toolbar: { show: false } },
       plotOptions: { bar: { horizontal: false, columnWidth: '45%', endingShape: 'rounded' } },
       dataLabels: { enabled: false },
       stroke: { show: true, width: 2, colors: ['transparent'] },
