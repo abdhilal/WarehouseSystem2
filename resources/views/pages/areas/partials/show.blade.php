@@ -2,6 +2,8 @@
 @section('title')
     {{ __('Area details') }}
 @endsection
+
+
 @section('subTitle')
     {{ __('Area details') }}
 @endsection
@@ -41,6 +43,18 @@
                         </table>
                     </div>
 
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header card-no-border pb-0">
+                                    <h3>{{ __('Work Summary') }}</h3>
+                                </div>
+                                <div class="card-body apex-chart" style="overflow-x: auto; overflow-y: hidden; width: 90%;">
+                                    <div id="rep-bar-chart" style="min-width: 800px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row mb-4">
                         <div class="col-md-3">
                             <div class="card">
@@ -142,3 +156,101 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function formatNumber(val) {
+                return Number(val).toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
+
+            var barData = @json($stats['summary'] ?? []);
+            var items = Object.values(barData).sort(function(a, b) {
+                return new Date(b.date) - new Date(a.date);
+            });
+            var categories = items.map(function(d) {
+                return d.date;
+            });
+            var incomeSeries = items.map(function(d) {
+                return parseFloat(d.value_income || 0);
+            });
+            var outputSeries = items.map(function(d) {
+                return parseFloat(d.value_output || 0);
+            });
+            var chartWidth = Math.max((categories.length || 1) * 100, 800);
+            var chartEl = document.querySelector('#rep-bar-chart');
+            if (chartEl) chartEl.style.minWidth = chartWidth + 'px';
+
+            var barOptions = {
+                series: [{
+                        name: "{{ __('Value Output') }}",
+                        data: outputSeries
+                    },
+                    {
+                        name: "{{ __('Value Income') }}",
+                        data: incomeSeries
+                    }
+                ],
+                chart: {
+                    type: 'bar',
+                    height: 380,
+                    toolbar: {
+                        show: false
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        columnWidth: '45%',
+                        endingShape: 'rounded'
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    show: true,
+                    width: 2,
+                    colors: ['transparent']
+                },
+                xaxis: {
+                    categories: categories,
+                    tickPlacement: 'on'
+                },
+                grid: {
+                    padding: {
+                        left: 0,
+                        right: 0
+                    }
+                },
+                yaxis: {
+                    labels: {
+                        formatter: formatNumber
+                    }
+                },
+                fill: {
+                    opacity: 1
+                },
+                colors: ['#51bb25', '#ff3a3a'],
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    y: {
+                        formatter: formatNumber
+                    }
+                }
+            };
+
+            var barChart = new ApexCharts(document.querySelector('#rep-bar-chart'), barOptions);
+            barChart.render();
+
+            setTimeout(function() {
+                var sc = document.querySelector('#rep-bar-chart');
+                if (sc && sc.parentElement) sc.parentElement.scrollLeft = sc.parentElement.scrollWidth;
+            }, 100);
+        });
+    </script>
+@endpush

@@ -28,7 +28,7 @@
                                 <h3>{{ __('Work Summary') }}</h3>
                             </div>
                             <div class="card-body apex-chart" style="overflow-x: auto; overflow-y: hidden; width: 90%;">
-                                <div  id="rep-bar-chart" style="min-width: 800px;"></div>
+                                <div id="rep-bar-chart" style="min-width: 800px;"></div>
                             </div>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
                         </div>
                     </div>
                 </div>
-              
+
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered">
