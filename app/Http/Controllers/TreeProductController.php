@@ -44,7 +44,7 @@ class TreeProductController extends Controller
             ->orderBy('month_year', 'desc')
             ->pluck('month_year');
 
-        return view('pages.TreeProducts.index', compact('treeProducts', 'dates', 'date', 'search'));
+        return view('pages.treeProducts.index', compact('treeProducts', 'dates', 'date', 'search'));
     }
 
     /**
@@ -52,7 +52,7 @@ class TreeProductController extends Controller
      */
     public function upload()
     {
-        return view('pages.TreeProducts.partials.create');
+        return view('pages.treeProducts.partials.create');
     }
 
     /**
@@ -134,6 +134,6 @@ class TreeProductController extends Controller
             ->distinct()
             ->orderBy('month_year', 'desc')
             ->pluck('month_year');
-        return view('pages.TreeProducts.partials.management', compact('dates'));
+        return view('pages.treeProducts.partials.management', compact('dates'));
     }
 }
