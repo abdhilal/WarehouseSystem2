@@ -43,6 +43,28 @@
                     </div>
                 </div>
                 </div>
+                <div class="row mt-3">
+                    <div class="col-sm-12 col-xl-6 box-col-6">
+                        <div class="card">
+                            <div class="card-header card-no-border pb-0">
+                                <h3>{{ __('Bar Chart') }}</h3>
+                            </div>
+                            <div class="card-body apex-chart">
+                                <div id="rep-bar-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xl-6 box-col-6">
+                        <div class="card">
+                            <div class="card-header card-no-border pb-0">
+                                <h3>{{ __('Basic Area Chart') }}</h3>
+                            </div>
+                            <div class="card-body apex-chart">
+                                <div id="rep-area-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered">
@@ -199,6 +221,54 @@
 
     var chartPie = new ApexCharts(document.querySelector('#piechart'), optionsPie);
     chartPie.render();
+
+    var barData = @json($summary);
+    var categories = Object.values(barData).map(function (d) { return d.date; });
+    var incomeSeries = Object.values(barData).map(function (d) { return parseFloat(d.value_income || 0); });
+    var outputSeries = Object.values(barData).map(function (d) { return parseFloat(d.value_output || 0); });
+
+    var barOptions = {
+      series: [
+        { name: "{{ __('Value Output') }}", data: outputSeries },
+        { name: "{{ __('Value Income') }}", data: incomeSeries }
+      ],
+      chart: { type: 'bar', height: 380, toolbar: { show: false } },
+      plotOptions: { bar: { horizontal: false, columnWidth: '45%', endingShape: 'rounded' } },
+      dataLabels: { enabled: false },
+      stroke: { show: true, width: 2, colors: ['transparent'] },
+      xaxis: { categories: categories },
+      yaxis: { labels: { formatter: function (val) { return Number(val).toFixed(2); } } },
+      fill: { opacity: 1 },
+      colors: ['#51bb25', '#ff3a3a'],
+      legend: { position: 'bottom' },
+      tooltip: { y: { formatter: function (val) { return Number(val).toFixed(2); } } }
+    };
+
+    var barChart = new ApexCharts(document.querySelector('#rep-bar-chart'), barOptions);
+    barChart.render();
+
+    var netSeries = Object.values(barData).map(function (d) {
+      var out = parseFloat(d.value_output || 0);
+      var inc = parseFloat(d.value_income || 0);
+      return out - inc;
+    });
+
+    var areaOptions = {
+      series: [
+        { name: "{{ __('Net') }}", data: netSeries }
+      ],
+      chart: { type: 'area', height: 380, toolbar: { show: false } },
+      dataLabels: { enabled: false },
+      stroke: { curve: 'smooth', width: 2 },
+      xaxis: { categories: categories },
+      yaxis: { labels: { formatter: function (val) { return Number(val).toFixed(2); } } },
+      colors: ['#51bb25'],
+      legend: { position: 'bottom' },
+      tooltip: { y: { formatter: function (val) { return Number(val).toFixed(2); } } }
+    };
+
+    var areaChart = new ApexCharts(document.querySelector('#rep-area-chart'), areaOptions);
+    areaChart.render();
   });
 </script>
 @endpush

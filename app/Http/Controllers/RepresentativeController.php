@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Area;
+use App\Models\File;
 use App\Models\User;
 use App\Models\Pharmacy;
 use App\Models\Warehouse;
@@ -50,9 +51,30 @@ class RepresentativeController extends Controller
     public function show(Representative $representative)
     {
 
+
+
+
         if ($representative->warehouse_id != auth()->user()->warehouse_id) {
             abort(403);
         }
+
+
+        $files = File::where('warehouse_id', $representative->warehouse_id)->orderBy('month_year')->get();
+
+        $transactionsSummary = Transaction::where('representative_id', $representative->id)->get();
+
+        $summary = [];
+
+        foreach ($files as $file) {
+            $filtered = $transactionsSummary->where('file_id', $file->id);
+
+            $summary[$file->id] = [
+                'value_income'     => (float) $filtered->sum('value_income'),
+                'value_output'     => (float) $filtered->sum('value_output'),
+                'date' => $file->month_year,
+            ];
+        }
+
         $fileId = getDefaultFileId();
 
         // جميع معاملات هذا المندوب على الملف الحالي
@@ -101,6 +123,7 @@ class RepresentativeController extends Controller
             'pharmacies',
             'pharmacyTotals',
             'areas',
+            'summary',
             'date'
         ));
     }
