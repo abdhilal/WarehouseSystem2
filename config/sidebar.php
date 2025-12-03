@@ -49,7 +49,7 @@ return [
         'icon'  => '<i class="iconly-User3 icli"></i>',
         'items' => [
             [
-                'label' => 'Representatives',
+                'label' => 'Representatives Sales',
                 'icon'  => '<i class="iconly-Arrow-Left-3 icli"></i>',
                 'route' => 'representatives.index'
             ],

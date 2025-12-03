@@ -24,6 +24,18 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header card-no-border pb-0">
+                                    <h3>{{ __('Work Summary') }}</h3>
+                                </div>
+                                <div class="card-body apex-chart" style="overflow-x: auto; overflow-y: hidden; width: 90%;">
+                                    <div id="rep-bar-chart" style="min-width: 800px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="table-responsive mb-4">
                         <table class="table table-bordered">
                             <tbody>
@@ -43,18 +55,7 @@
                         </table>
                     </div>
 
-                    <div class="row mt-3">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header card-no-border pb-0">
-                                    <h3>{{ __('Work Summary') }}</h3>
-                                </div>
-                                <div class="card-body apex-chart" style="overflow-x: auto; overflow-y: hidden; width: 90%;">
-                                    <div id="rep-bar-chart" style="min-width: 800px;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="row mb-4">
                         <div class="col-md-3">
                             <div class="card">

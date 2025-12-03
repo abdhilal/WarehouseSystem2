@@ -63,7 +63,7 @@
                             </div>
                         </div>
                     </form>
-                    <h4 class="mt-2 mb-3">{{ __('Files') }}</h4>
+                    <h4 class="mt-2 mb-3">{{ __('Tree Products') }}</h4>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
