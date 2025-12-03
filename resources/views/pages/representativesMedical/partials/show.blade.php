@@ -129,6 +129,12 @@
     function formatNumber(val) {
       return Number(val).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
+    function getThemeTextColor() {
+      var cs = getComputedStyle(document.body);
+      var v = cs.getPropertyValue('--body-font-color');
+      return v && v.trim() ? v.trim() : '#222';
+    }
+    var labelColor = getThemeTextColor();
     var options = {
       chart: {
         type: 'donut',
@@ -191,8 +197,8 @@
         { name: "{{ __('Value Income') }}", data: incomeSeries }
       ],
       chart: { type: 'bar', height: 320, toolbar: { show: false } },
-      plotOptions: { bar: { horizontal: false, columnWidth: '45%', endingShape: 'rounded' } },
-      dataLabels: { enabled: false },
+      plotOptions: { bar: { horizontal: false, columnWidth: '45%', endingShape: 'rounded', dataLabels: { position: 'top' } } },
+      dataLabels: { enabled: true, enabledOnSeries: [0], formatter: formatNumber, offsetY: -25, style: { fontSize: '10px', colors: [labelColor] } },
       stroke: { show: true, width: 2, colors: ['transparent'] },
       xaxis: { categories: categories },
       yaxis: { labels: { formatter: formatNumber } },
@@ -204,6 +210,11 @@
 
     var barChart = new ApexCharts(document.querySelector('#med-rep-bar-chart'), barOptions);
     barChart.render();
+    var observer = new MutationObserver(function() {
+      labelColor = getThemeTextColor();
+      barChart.updateOptions({ dataLabels: { style: { colors: [labelColor] } } });
+    });
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
     var sc = document.querySelector('#med-rep-bar-chart').parentElement;
     if (sc) { sc.scrollLeft = sc.scrollWidth; }
   });

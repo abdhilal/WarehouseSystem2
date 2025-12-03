@@ -173,6 +173,12 @@
                     maximumFractionDigits: 2
                 });
             }
+            function getThemeTextColor() {
+                var cs = getComputedStyle(document.body);
+                var v = cs.getPropertyValue('--body-font-color');
+                return v && v.trim() ? v.trim() : '#222';
+            }
+            var labelColor = getThemeTextColor();
             var options = {
                 chart: {
                     type: 'donut',
@@ -275,11 +281,16 @@
                     bar: {
                         horizontal: false,
                         columnWidth: '45%',
-                        endingShape: 'rounded'
+                        endingShape: 'rounded',
+                        dataLabels: { position: 'top' }
                     }
                 },
                 dataLabels: {
-                    enabled: false
+                    enabled: true,
+                    enabledOnSeries: [0],
+                    formatter: formatNumber,
+                    offsetY: -25,
+                    style: { fontSize: '10px', colors: [labelColor] }
                 },
                 stroke: {
                     show: true,
@@ -310,6 +321,11 @@
 
             var barChart = new ApexCharts(document.querySelector('#rep-bar-chart'), barOptions);
             barChart.render();
+            var observer = new MutationObserver(function() {
+                labelColor = getThemeTextColor();
+                barChart.updateOptions({ dataLabels: { style: { colors: [labelColor] } } });
+            });
+            observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
         });
     </script>
 @endpush
