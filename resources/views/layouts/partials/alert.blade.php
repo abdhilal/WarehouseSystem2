@@ -46,8 +46,23 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            // إظهار الرسائل بعد تحميل الصفحة
             $('.alert').delay(5000).fadeOut('slow');
+            var s = localStorage.getItem('flash_success');
+            if (s && $('.alert').length === 0) {
+                var el = $('<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="fa-solid fa-check icli"></i> <span class="msg"></span><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ __('Close') }}"></button></div>');
+                el.find('.msg').text(s);
+                $('body').append(el);
+                localStorage.removeItem('flash_success');
+                el.delay(5000).fadeOut('slow');
+            }
+            var e = localStorage.getItem('flash_error');
+            if (e && $('.alert').length === 0) {
+                var el2 = $('<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="fa-solid fa-xmark icli"></i> <span class="msg"></span><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ __('Close') }}"></button></div>');
+                el2.find('.msg').text(e);
+                $('body').append(el2);
+                localStorage.removeItem('flash_error');
+                el2.delay(5000).fadeOut('slow');
+            }
         });
     </script>
 @endpush

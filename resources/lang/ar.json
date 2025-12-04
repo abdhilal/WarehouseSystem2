@@ -238,5 +238,7 @@
     "Tree Product deleted successfully": "تم حذف شجرة المنتجات بنجاح.",
     "Work Summary": "ملخص العمل",
     "Areas Summary":"ملخص المناطق",
-    "Total":"الإجمالي"
+    "Total":"الإجمالي",
+    "File deleted successfully.": "تم حذف الملف بنجاح.",
+    "Processing...": "جاري المعالجة..."
 }
